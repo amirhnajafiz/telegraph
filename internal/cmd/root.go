@@ -1,14 +1,10 @@
 package cmd
 
 import (
-	"github.com/labstack/echo/v4"
-	"net/http"
+	"Telegraph/internal/cmd/serve"
 )
 
 func Exec() {
-	e := echo.New()
-	e.GET("api/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+	e := serve.GetServer()
 	e.Logger.Fatal(e.Start(":5000"))
 }
