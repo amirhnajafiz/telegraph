@@ -1,0 +1,9 @@
+swagger: "2.0"
+info:
+  title: "telegraph"
+  description: "telegraph"
+  version: 1.0.0
+host: "localhost"
+schemes:
+  - http
+paths:
