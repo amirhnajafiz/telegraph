@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"Telegraph/internal/cmd"
+)
 
 func main() {
-	fmt.Println("Let go")
+	cmd.Exec()
 }
