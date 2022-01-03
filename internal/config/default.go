@@ -1,5 +1,11 @@
 package config
 
-func Default() {
-	// TODO: Default configurations
+import "Telegraph/internal/logger"
+
+func Default() Config {
+	return Config{
+		Logger: logger.Config{
+			Level: "debug",
+		},
+	}
 }

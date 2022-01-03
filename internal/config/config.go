@@ -1,7 +1,9 @@
 package config
 
+import "Telegraph/internal/logger"
+
 type (
 	Config struct {
-		// TODO: Fields
+		Logger logger.Config `koanf:"logger"`
 	}
 )
