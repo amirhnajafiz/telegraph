@@ -20,7 +20,11 @@ export default {
   },
   mounted() {
     axios
-      .get('http://localhost:5000/api/')
+      .get('http://localhost:5000/api/', {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        }
+      })
       .then(response => (
           this.info = response
       ))

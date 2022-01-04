@@ -11,7 +11,8 @@ type Root struct {
 }
 
 func (root Root) Handle(c echo.Context) error {
-	return c.String(http.StatusOK, "Welcome home")
+	c.Set("Access-Control-Allow-Origin", "*")
+	return c.JSON(http.StatusOK, "Welcome home")
 }
 
 func (root Root) Register(g *echo.Group) {
