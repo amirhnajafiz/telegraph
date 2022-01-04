@@ -1,7 +1,7 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
   <HelloWorld msg="Welcome to Your Vue.js App"/>
-  <p v-bind="info"></p>
+  <p> {{ info }} </p>
 </template>
 
 <script>
@@ -12,21 +12,21 @@ export default {
   name: 'App',
   data() {
     return{
-      info: ""
+      info: "test"
     }
   },
   components: {
     HelloWorld
   },
-  mounted() {
+  created() {
     axios
-      .get('http://localhost:5000/api/', {
+      .get('http://localhost:3000/api/', {
         headers: {
           'Access-Control-Allow-Origin': '*',
         }
       })
       .then(response => (
-          this.info = response
+          this.info = response.data
       ))
   }
 }
