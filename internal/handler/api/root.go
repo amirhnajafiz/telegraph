@@ -14,6 +14,6 @@ func (root Root) Handle(c echo.Context) error {
 	return c.String(http.StatusOK, "Welcome home")
 }
 
-func (root Root) Register(g echo.Group) {
+func (root Root) Register(g *echo.Group) {
 	g.GET("/", root.Handle)
 }
