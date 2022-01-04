@@ -20,11 +20,7 @@ export default {
   },
   created() {
     axios
-      .get('http://localhost:3000/api/', {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-        }
-      })
+      .get('http://localhost:3000/api/')
       .then(response => (
           this.info = response.data
       ))
