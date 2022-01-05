@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"Telegraph/internal/cmd/migrate"
 	"Telegraph/internal/cmd/serve"
 	"Telegraph/internal/config"
 	"Telegraph/internal/db"
@@ -17,6 +18,11 @@ func Exec() {
 	if er != nil {
 		log.Fatal("database initiation failed", zap.Error(er))
 	}
+
+	migrate.Do(migrate.Requirements{
+		Database: database,
+		Logger:   log,
+	})
 
 	e := serve.GetServer(serve.Tools{
 		Database: database,
