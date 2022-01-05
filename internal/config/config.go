@@ -1,6 +1,7 @@
 package config
 
 import (
+	"Telegraph/internal/db"
 	"Telegraph/internal/logger"
 	"encoding/json"
 	"github.com/knadh/koanf"
@@ -12,7 +13,8 @@ import (
 
 type (
 	Config struct {
-		Logger logger.Config `koanf:"logger"`
+		Database db.Config     `koanf:"database"`
+		Logger   logger.Config `koanf:"logger"`
 	}
 )
 
