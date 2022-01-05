@@ -18,7 +18,10 @@ func Exec() {
 		log.Fatal("database initiation failed", zap.Error(er))
 	}
 
-	e := serve.GetServer(log.Named("serve"), database)
+	e := serve.GetServer(serve.Tools{
+		Database: database,
+		Logger:   log.Named("serve"),
+	})
 
 	err := e.Start(":5000")
 	log.Fatal("error starting server", zap.Error(err))

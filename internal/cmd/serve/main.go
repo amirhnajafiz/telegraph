@@ -7,11 +7,16 @@ import (
 	"go.uber.org/zap"
 )
 
-func GetServer(logger *zap.Logger, database *mongo.Database) *echo.Echo {
-	logger.Info("Initialized server")
+type Tools struct {
+	Database *mongo.Database
+	Logger   *zap.Logger
+}
+
+func GetServer(t Tools) *echo.Echo {
+	t.Logger.Info("Initialized server")
 
 	e := echo.New()
-	handler.Set(e, logger.Named("handler"), database)
+	handler.Set(e, t.Logger.Named("handler"), t.Database)
 
 	return e
 }
