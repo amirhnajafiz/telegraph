@@ -8,6 +8,10 @@ import (
 
 func Set(app *echo.Echo, logger *zap.Logger) {
 	api.Root{
-		Logger: logger,
+		Logger: logger.Named("root"),
+	}.Register(app.Group("/api"))
+
+	api.Publish{
+		Logger: logger.Named("publish"),
 	}.Register(app.Group("/api"))
 }
