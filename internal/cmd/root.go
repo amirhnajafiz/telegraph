@@ -13,12 +13,12 @@ func Exec() {
 
 	log := logger.NewLogger(cfg.Logger)
 
-	db, er := db.NewDB(cfg.Database)
+	database, er := db.NewDB(cfg.Database)
 	if er != nil {
 		log.Fatal("database initiation failed", zap.Error(er))
 	}
 
-	e := serve.GetServer(log.Named("serve"))
+	e := serve.GetServer(log.Named("serve"), database)
 
 	err := e.Start(":5000")
 	log.Fatal("error starting server", zap.Error(err))
