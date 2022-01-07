@@ -46,4 +46,6 @@ func TestNewDB(t *testing.T) {
 			assert.Fail(t, "disconnection client failed")
 		}
 	}
+
+	assert.True(t, true, "Database testing is done.")
 }
