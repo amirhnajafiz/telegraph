@@ -33,6 +33,10 @@ func Load() Config {
 		log.Printf("error loading config.yml: %s", err)
 	}
 
+	if err := k.Unmarshal("", &instance); err != nil {
+		log.Fatalf("error unmarshalling config: %s", err)
+	}
+
 	indent, _ := json.MarshalIndent(instance, "", "\t")
 	tmpl := `
 	================ Loaded Configuration ================
