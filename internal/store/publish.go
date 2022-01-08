@@ -11,7 +11,7 @@ import (
 func Publish(database *mongo.Database, ctx context.Context, r api.Request) error {
 	col := database.Collection(docs.Collection)
 
-	item := &docs.Publish{
+	item := &docs.Message{
 		From: r.Source,
 		To:   r.Des,
 		Msg:  r.Msg,

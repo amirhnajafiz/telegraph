@@ -5,9 +5,9 @@ import (
 	"time"
 )
 
-var Collection = "publications"
+var Collection = "messages"
 
-type Publish struct {
+type Message struct {
 	ID   primitive.ObjectID `bson:"_id,omitempty"`
 	From string             `bson:"from,omitempty"`
 	To   string             `bson:"to,omitempty"`
