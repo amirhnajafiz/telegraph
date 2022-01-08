@@ -3,6 +3,7 @@ package message
 import (
 	"Telegraph/internal/handler/publish"
 	"context"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"time"
 )
@@ -23,4 +24,15 @@ func Store(database *mongo.Database, ctx context.Context, r publish.Request) err
 	}
 
 	return nil
+}
+
+func All(database *mongo.Database, ctx context.Context) []Message {
+	col := database.Collection(Collection)
+
+	cursor, _ := col.Find(ctx, bson.D{})
+
+	var results []Message
+	cursor.All(ctx, results)
+
+	return results
 }
