@@ -1,6 +1,7 @@
 package migrate
 
 import (
+	"Telegraph/internal/docs"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
 )
@@ -11,8 +12,7 @@ type Requirements struct {
 }
 
 func Do(r Requirements) {
-	_ = r.Database.Collection("publications")
-	_ = r.Database.Collection("users")
+	_ = r.Database.Collection(docs.Collection)
 
 	r.Logger.Info("collections created")
 }

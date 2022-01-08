@@ -8,10 +8,8 @@ import (
 	"time"
 )
 
-var collection = "publications"
-
 func Store(database *mongo.Database, ctx context.Context, r api.Request) error {
-	col := database.Collection(collection)
+	col := database.Collection(docs.Collection)
 
 	item := &docs.Publish{
 		From: r.Source,

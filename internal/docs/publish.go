@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+var Collection = "publications"
+
 type Publish struct {
 	ID   primitive.ObjectID `bson:"_id,omitempty"`
 	From string             `bson:"from,omitempty"`
