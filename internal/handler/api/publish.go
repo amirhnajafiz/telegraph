@@ -1,7 +1,7 @@
 package api
 
 import (
-	publish2 "Telegraph/internal/store/publish"
+	"Telegraph/internal/store"
 	"context"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -30,7 +30,7 @@ func (publish Publish) Handle(c echo.Context) (err error) {
 
 	// TODO 0: Data validation
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	err = publish2.Store(publish.Database, ctx, *req)
+	err = store.Publish(publish.Database, ctx, *req)
 	if err != nil {
 		publish.Logger.Error("insert into database failed", zap.Error(err))
 	}

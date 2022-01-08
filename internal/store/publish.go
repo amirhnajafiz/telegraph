@@ -1,4 +1,4 @@
-package publish
+package store
 
 import (
 	"Telegraph/internal/docs"
@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func Store(database *mongo.Database, ctx context.Context, r api.Request) error {
+func Publish(database *mongo.Database, ctx context.Context, r api.Request) error {
 	col := database.Collection(docs.Collection)
 
 	item := &docs.Publish{
