@@ -21,10 +21,10 @@ type Request struct {
 	Msg    string `json:"message"`
 }
 
-func (publish Publish) Handle(c echo.Context) (err error) {
+func (publish Publish) Handle(c echo.Context) error {
 	req := new(Request)
 
-	if err = c.Bind(req); err != nil {
+	if err := c.Bind(req); err != nil {
 		return err
 	}
 
@@ -32,9 +32,10 @@ func (publish Publish) Handle(c echo.Context) (err error) {
 
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
-	err = message.Store(publish.Database, ctx, *req)
+	err := message.Store(publish.Database, ctx, *req)
 	if err != nil {
 		publish.Logger.Error("insert into database failed", zap.Error(err))
+		return err
 	}
 
 	// TODO 2: Send the message to the destination
