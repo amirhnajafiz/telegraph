@@ -1,10 +1,10 @@
-package api
+package publish
 
 import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-func TestRoot(t *testing.T) {
+func TestPublish(t *testing.T) {
 	assert.True(t, true, "This is true")
 }

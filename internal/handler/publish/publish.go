@@ -1,4 +1,4 @@
-package api
+package publish
 
 import (
 	"Telegraph/internal/store/message"
@@ -29,11 +29,14 @@ func (publish Publish) Handle(c echo.Context) (err error) {
 	}
 
 	// TODO 0: Data validation
+
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+
 	err = message.Store(publish.Database, ctx, *req)
 	if err != nil {
 		publish.Logger.Error("insert into database failed", zap.Error(err))
 	}
+
 	// TODO 2: Send the message to the destination
 	// TODO 3: Notify the destination
 

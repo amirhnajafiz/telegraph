@@ -1,13 +1,13 @@
 package message
 
 import (
-	"Telegraph/internal/handler/api"
+	"Telegraph/internal/handler/publish"
 	"context"
 	"go.mongodb.org/mongo-driver/mongo"
 	"time"
 )
 
-func Store(database *mongo.Database, ctx context.Context, r api.Request) error {
+func Store(database *mongo.Database, ctx context.Context, r publish.Request) error {
 	col := database.Collection(Collection)
 
 	item := &Message{
