@@ -11,8 +11,8 @@ type Requirements struct {
 }
 
 func Do(r Requirements) {
-	_ = r.Database.Collection("podcasts")
-	_ = r.Database.Collection("episodes")
+	_ = r.Database.Collection("publications")
+	_ = r.Database.Collection("users")
 
 	r.Logger.Info("collections created")
 }
