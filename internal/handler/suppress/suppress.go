@@ -20,3 +20,7 @@ func (s Suppress) Handle(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, message.All(s.Database, ctx))
 }
+
+func (s Suppress) Register(g *echo.Group) {
+	g.GET("/suppress", s.Handle)
+}
