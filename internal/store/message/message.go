@@ -1,26 +1,16 @@
 package message
 
 import (
-	"Telegraph/internal/handler/api"
-	"context"
-	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
 )
 
-func Store(database *mongo.Database, ctx context.Context, r api.Request) error {
-	col := database.Collection(Collection)
+var Collection = "messages"
 
-	item := &Message{
-		From: r.Source,
-		To:   r.Des,
-		Msg:  r.Msg,
-		Date: time.Now(),
-	}
-
-	_, err := col.InsertOne(ctx, item)
-	if err != nil {
-		return err
-	}
-
-	return nil
+type Message struct {
+	ID   primitive.ObjectID `bson:"_id,omitempty"`
+	From string             `bson:"from,omitempty"`
+	To   string             `bson:"to,omitempty"`
+	Msg  string             `bson:"msg,omitempty"`
+	Date time.Time          `bson:"date,omitempty"`
 }
