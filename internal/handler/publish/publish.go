@@ -4,12 +4,10 @@ import (
 	"Telegraph/internal/store/message"
 	"Telegraph/pkg/validate"
 	"context"
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
 	"net/http"
-	"reflect"
 	"time"
 )
 
@@ -25,22 +23,15 @@ type Request struct {
 }
 
 func (publish Publish) Handle(c echo.Context) error {
-	valid := validate.ValidatePublish(c)
-	fmt.Println(reflect.TypeOf(valid["validationError"]))
-	if valid["validationError"] != nil {
+	valid, data := validate.ValidatePublish(c)
+	if valid.Encode() != "" {
 		return c.JSON(http.StatusBadRequest, valid)
 	}
 
-	req := new(Request)
-
-	if err := c.Bind(req); err != nil {
-		return err
-	}
-
 	item := &message.Message{
-		From: req.Source,
-		To:   req.Des,
-		Msg:  req.Msg,
+		From: data["from"].(string),
+		To:   data["to"].(string),
+		Msg:  data["message"].(string),
 	}
 
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
@@ -54,7 +45,7 @@ func (publish Publish) Handle(c echo.Context) error {
 	// TODO 2: Send the message to the destination
 	// TODO 3: Notify the destination
 
-	return c.JSON(http.StatusOK, req)
+	return c.JSON(http.StatusOK, data)
 }
 
 func (publish Publish) Register(g *echo.Group) {

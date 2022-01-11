@@ -3,16 +3,17 @@ package validate
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/thedevsaddam/govalidator"
+	"net/url"
 )
 
-func ValidatePublish(r echo.Context) map[string]interface{} {
+func ValidatePublish(r echo.Context) (url.Values, map[string]interface{}) {
 	rules := govalidator.MapData{
 		"from":    []string{"between:4,20"},
 		"to":      []string{"between:4,20"},
 		"message": []string{"between:0,250"},
 	}
 
-	data := make(map[string]interface{}, 0)
+	data := make(map[string]interface{})
 
 	opts := govalidator.Options{
 		Request:         r.Request(), // request object
@@ -22,7 +23,6 @@ func ValidatePublish(r echo.Context) map[string]interface{} {
 	}
 	v := govalidator.New(opts)
 	e := v.ValidateJSON()
-	err := map[string]interface{}{"validationError": e}
 
-	return err
+	return e, data
 }
