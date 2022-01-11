@@ -20,13 +20,15 @@ func Store(database *mongo.Database, ctx context.Context, item *Message) error {
 	return nil
 }
 
-func All(database *mongo.Database, ctx context.Context) []Message {
+func All(database *mongo.Database, ctx context.Context) []bson.M {
 	col := database.Collection(Collection)
 
-	cursor, _ := col.Find(ctx, bson.D{})
+	cursor, _ := col.Find(ctx, bson.M{})
 
-	var results []Message
-	cursor.All(ctx, results)
+	defer cursor.Close(ctx)
+
+	var results []bson.M
+	cursor.All(ctx, &results)
 
 	return results
 }
