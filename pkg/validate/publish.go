@@ -6,10 +6,10 @@ import (
 	"net/url"
 )
 
-func ValidatePublish(r echo.Context) (url.Values, map[string]interface{}) {
+func PublishValidate(r echo.Context) (url.Values, map[string]interface{}) {
 	rules := govalidator.MapData{
-		"from":    []string{"between:4,20"},
-		"to":      []string{"between:4,20"},
+		"from":    []string{"required", "between:4,20"},
+		"to":      []string{"required", "between:4,20"},
 		"message": []string{"between:0,250"},
 	}
 

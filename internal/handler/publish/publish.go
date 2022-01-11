@@ -16,14 +16,9 @@ type Publish struct {
 	Logger   *zap.Logger
 }
 
-type Request struct {
-	Source string `json:"from"`
-	Des    string `json:"to"`
-	Msg    string `json:"message"`
-}
-
 func (publish Publish) Handle(c echo.Context) error {
-	valid, data := validate.ValidatePublish(c)
+	valid, data := validate.PublishValidate(c)
+
 	if valid.Encode() != "" {
 		return c.JSON(http.StatusBadRequest, valid)
 	}
