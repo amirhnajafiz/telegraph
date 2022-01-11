@@ -17,8 +17,8 @@ type Suppress struct {
 
 func (s Suppress) Handle(c echo.Context) error {
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-
-	return c.JSON(http.StatusOK, message.All(s.Database, ctx))
+	res := message.All(s.Database, ctx)
+	return c.JSON(http.StatusOK, res)
 }
 
 func (s Suppress) Register(g *echo.Group) {
