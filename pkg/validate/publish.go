@@ -7,17 +7,15 @@ import (
 
 func ValidatePublish(r echo.Context) map[string]interface{} {
 	rules := govalidator.MapData{
-		"username": []string{"required", "between:3,8"},
-		"email":    []string{"required", "min:4", "max:20", "email"},
-		"web":      []string{"url"},
-		"phone":    []string{"digits:11"},
-		"agree":    []string{"bool"},
-		"dob":      []string{"date"},
+		"from":    []string{"required", "min:4", "max:20"},
+		"to":      []string{"required", "min:4", "max:20"},
+		"message": []string{"max:250"},
 	}
 
 	messages := govalidator.MapData{
-		"username": []string{"required:আপনাকে অবশ্যই ইউজারনেম দিতে হবে", "between:ইউজারনেম অবশ্যই ৩-৮ অক্ষর হতে হবে"},
-		"phone":    []string{"digits:ফোন নাম্বার অবশ্যই ১১ নম্বারের হতে হবে"},
+		"from":    []string{"required: Enter the source name", "min: Source name is too short", "max: Source name is too long"},
+		"to":      []string{"required: Enter the destin name", "min: Destin name is too short", "max: Destin name is too long"},
+		"message": []string{"max: Input value is to large"},
 	}
 
 	opts := govalidator.Options{

@@ -2,6 +2,7 @@ package publish
 
 import (
 	"Telegraph/internal/store/message"
+	"Telegraph/pkg/validate"
 	"context"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -22,6 +23,11 @@ type Request struct {
 }
 
 func (publish Publish) Handle(c echo.Context) error {
+	valid := validate.ValidatePublish(c)
+	if valid != nil {
+		return c.JSON(http.StatusBadRequest, valid)
+	}
+
 	req := new(Request)
 
 	if err := c.Bind(req); err != nil {
@@ -33,8 +39,6 @@ func (publish Publish) Handle(c echo.Context) error {
 		To:   req.Des,
 		Msg:  req.Msg,
 	}
-
-	// TODO 0: Data validation
 
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
