@@ -4,10 +4,12 @@ import (
 	"Telegraph/internal/store/message"
 	"Telegraph/pkg/validate"
 	"context"
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
 	"net/http"
+	"reflect"
 	"time"
 )
 
@@ -24,7 +26,8 @@ type Request struct {
 
 func (publish Publish) Handle(c echo.Context) error {
 	valid := validate.ValidatePublish(c)
-	if valid != nil {
+	fmt.Println(reflect.TypeOf(valid["validationError"]))
+	if valid["validationError"] != nil {
 		return c.JSON(http.StatusBadRequest, valid)
 	}
 
