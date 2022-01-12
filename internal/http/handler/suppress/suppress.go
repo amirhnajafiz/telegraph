@@ -1,6 +1,7 @@
 package suppress
 
 import (
+	"Telegraph/internal/http/request"
 	"Telegraph/internal/store/message"
 	"context"
 	"github.com/labstack/echo/v4"
@@ -16,6 +17,14 @@ type Suppress struct {
 }
 
 func (s Suppress) Handle(c echo.Context) error {
+	valid, data := request.SuppressValidate(c)
+
+	if valid.Encode() != "" {
+		return c.JSON(http.StatusBadRequest, valid)
+	}
+
+	user := data["sender"].(string)
+
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	res := message.All(s.Database, ctx)
 	return c.JSON(http.StatusOK, res)
