@@ -1,7 +1,7 @@
 package serve
 
 import (
-	"Telegraph/internal/handler"
+	"Telegraph/internal/http/handler"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
