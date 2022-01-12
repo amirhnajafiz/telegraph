@@ -26,7 +26,7 @@ func (s Suppress) Handle(c echo.Context) error {
 	user := data["sender"].(string)
 
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	res := message.All(s.Database, ctx)
+	res := message.All(s.Database, ctx, user)
 	return c.JSON(http.StatusOK, res)
 }
 

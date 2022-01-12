@@ -20,10 +20,10 @@ func Store(database *mongo.Database, ctx context.Context, item *Message) error {
 	return nil
 }
 
-func All(database *mongo.Database, ctx context.Context) []bson.M {
+func All(database *mongo.Database, ctx context.Context, user string) []bson.M {
 	col := database.Collection(Collection)
 
-	cursor, _ := col.Find(ctx, bson.M{})
+	cursor, _ := col.Find(ctx, bson.M{"from": user})
 
 	defer cursor.Close(ctx)
 
