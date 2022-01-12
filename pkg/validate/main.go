@@ -18,11 +18,12 @@ func Do(opts govalidator.Options, validateType string) (url.Values, map[string]i
 	v := govalidator.New(opts)
 
 	var e url.Values
-	if validateType == JsonType {
+	switch {
+	case validateType == JsonType:
 		e = v.ValidateJSON()
-	} else if validateType == InputType {
+	case validateType == InputType:
 		e = v.Validate()
-	} else if validateType == StructType {
+	case validateType == StructType:
 		e = v.ValidateStruct()
 	}
 
