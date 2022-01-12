@@ -1,8 +1,8 @@
 package publish
 
 import (
+	"Telegraph/internal/http/request"
 	"Telegraph/internal/store/message"
-	"Telegraph/pkg/validate"
 	"context"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -17,7 +17,7 @@ type Publish struct {
 }
 
 func (publish Publish) Handle(c echo.Context) error {
-	valid, data := validate.PublishValidate(c)
+	valid, data := request.PublishValidate(c)
 
 	if valid.Encode() != "" {
 		return c.JSON(http.StatusBadRequest, valid)
