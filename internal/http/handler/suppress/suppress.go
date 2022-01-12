@@ -17,13 +17,13 @@ type Suppress struct {
 }
 
 func (s Suppress) Handle(c echo.Context) error {
-	valid, data := request.SuppressValidate(c)
+	valid, _ := request.SuppressValidate(c)
 
 	if valid.Encode() != "" {
 		return c.JSON(http.StatusBadRequest, valid)
 	}
 
-	user := data["sender"].(string)
+	user := c.FormValue("sender")
 
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	res := message.All(s.Database, ctx, user)
