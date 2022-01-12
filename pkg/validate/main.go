@@ -13,7 +13,7 @@ var (
 
 func Do(opts govalidator.Options, validateType string) (url.Values, map[string]interface{}) {
 	data := make(map[string]interface{})
-	opts.Data = data
+	opts.Data = &data
 
 	v := govalidator.New(opts)
 
