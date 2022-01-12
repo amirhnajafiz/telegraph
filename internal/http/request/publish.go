@@ -20,5 +20,5 @@ func PublishValidate(r echo.Context) (url.Values, map[string]interface{}) {
 		RequiredDefault: true,        // all the field to be pass the rules
 	}
 
-	return validate.Do(opts)
+	return validate.Do(opts, validate.JsonType)
 }
