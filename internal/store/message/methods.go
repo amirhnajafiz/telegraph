@@ -23,7 +23,10 @@ func Store(database *mongo.Database, ctx context.Context, item *Message) error {
 func All(database *mongo.Database, ctx context.Context, user string) []bson.M {
 	col := database.Collection(Collection)
 
-	cursor, _ := col.Find(ctx, bson.M{"from": user})
+	cursor, _ := col.Find(ctx, bson.D{{"$or", []interface{}{
+		bson.M{"from": user},
+		bson.M{"to": user},
+	}}})
 
 	defer cursor.Close(ctx)
 
