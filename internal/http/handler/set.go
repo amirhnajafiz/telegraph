@@ -5,22 +5,29 @@ import (
 	"Telegraph/internal/http/handler/root"
 	"Telegraph/internal/http/handler/suppress"
 	"github.com/labstack/echo/v4"
+	"github.com/nats-io/nats.go"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
 )
 
-func Set(app *echo.Echo, logger *zap.Logger, database *mongo.Database) {
+type Handler struct {
+	Database *mongo.Database
+	Logger   *zap.Logger
+	Nats     *nats.Conn
+}
+
+func (h Handler) Set(app *echo.Echo) {
 	root.Root{
-		Logger: logger.Named("root"),
+		Logger: h.Logger.Named("root"),
 	}.Register(app.Group("/api"))
 
 	publish.Publish{
-		Database: database,
-		Logger:   logger.Named("publish"),
+		Database: h.Database,
+		Logger:   h.Logger.Named("publish"),
 	}.Register(app.Group("/api"))
 
 	suppress.Suppress{
-		Database: database,
-		Logger:   logger.Named("suppress"),
+		Database: h.Database,
+		Logger:   h.Logger.Named("suppress"),
 	}.Register(app.Group("/api"))
 }

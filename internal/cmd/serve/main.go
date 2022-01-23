@@ -18,7 +18,11 @@ func GetServer(t Tools) *echo.Echo {
 	t.Logger.Info("Initialized server")
 
 	e := echo.New()
-	handler.Set(e, t.Logger.Named("handler"), t.Database)
+	handler.Handler{
+		Database: t.Database,
+		Logger:   t.Logger.Named("handler"),
+		Nats:     t.Nats,
+	}.Set(e)
 
 	return e
 }
