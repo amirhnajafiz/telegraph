@@ -29,7 +29,8 @@ func (publish Publish) Handle(c echo.Context) error {
 		Msg:  data["message"].(string),
 	}
 
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
+	defer endCtx()
 
 	err := message.Store(publish.Database, ctx, item)
 	if err != nil {
