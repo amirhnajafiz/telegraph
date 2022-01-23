@@ -11,7 +11,7 @@ type Nats struct {
 }
 
 func (n Nats) Setup() *nats.Conn {
-	nc, err := nats.Connect(n.Conf.Port)
+	nc, err := nats.Connect(n.Conf.URL)
 	if err != nil {
 		n.Logger.Error("nats connection failed", zap.Error(err))
 	}

@@ -5,4 +5,4 @@ databse:
   name: telegraph
   url: mongodb://127.0.0.1:27017
 nats:
-  port: 4222
+  url: 0.0.0.0:4222

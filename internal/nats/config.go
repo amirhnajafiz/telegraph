@@ -1,5 +1,5 @@
 package nats
 
 type Config struct {
-	Port string `koanf:"port"`
+	URL string `koanf:"url"`
 }

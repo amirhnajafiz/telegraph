@@ -16,7 +16,7 @@ func Default() Config {
 			URL:  "mongodb://127.0.0.1:27017",
 		},
 		Nats: nats.Config{
-			Port: "4222",
+			URL: "127.0.0.1:4222",
 		},
 	}
 }
