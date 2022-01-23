@@ -5,10 +5,6 @@ import (
 	"go.uber.org/zap"
 )
 
-type Config struct {
-	Port string `koanf:"port"`
-}
-
 type Nats struct {
 	Logger zap.Logger
 	Conf   Config
