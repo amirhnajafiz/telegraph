@@ -7,10 +7,6 @@ import (
 	"os"
 )
 
-type Config struct {
-	Level string `koanf:"level"`
-}
-
 func NewLogger(cfg Config) *zap.Logger {
 	var lvl zapcore.Level
 
