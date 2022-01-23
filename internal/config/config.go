@@ -3,6 +3,7 @@ package config
 import (
 	"Telegraph/internal/db"
 	"Telegraph/internal/logger"
+	"Telegraph/internal/nats"
 	"encoding/json"
 	"github.com/knadh/koanf"
 	"github.com/knadh/koanf/parsers/yaml"
@@ -15,6 +16,7 @@ type (
 	Config struct {
 		Database db.Config     `koanf:"database"`
 		Logger   logger.Config `koanf:"logger"`
+		Nats     nats.Config   `koanf:"nats"`
 	}
 )
 
