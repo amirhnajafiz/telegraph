@@ -26,7 +26,6 @@ func (n Nats) Setup() *nats.Conn {
 func (n Nats) Publish(subject string, message []byte) {
 	e := n.Connection.Publish(subject, message)
 	if e != nil {
-		n.Logger.Info("success")
 		n.Logger.Error("nats publishing failed", zap.Error(e))
 	}
 }

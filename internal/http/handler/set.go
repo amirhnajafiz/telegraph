@@ -25,6 +25,7 @@ func (h Handler) Set(app *echo.Echo) {
 	publish.Publish{
 		Database: h.Database,
 		Logger:   h.Logger.Named("publish"),
+		Nats:     h.Nats,
 	}.Register(app.Group("/api"))
 
 	subscribe.Subscribe{
