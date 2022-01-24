@@ -22,11 +22,11 @@ func Exec() {
 
 	migrate.Do(migrate.Requirements{
 		Database: database,
-		Logger:   log,
+		Logger:   log.Named("database"),
 	})
 
 	n := nats.Nats{
-		Logger: *log.Named("nats"),
+		Logger: log.Named("nats"),
 		Conf:   cfg.Nats,
 	}
 	n.Connection = n.Setup()
