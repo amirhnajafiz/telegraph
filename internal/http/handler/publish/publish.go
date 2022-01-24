@@ -2,10 +2,10 @@ package publish
 
 import (
 	"Telegraph/internal/http/request"
+	nats2 "Telegraph/internal/nats"
 	"Telegraph/internal/store/message"
 	"context"
 	"github.com/labstack/echo/v4"
-	"github.com/nats-io/nats.go"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
 	"net/http"
@@ -15,7 +15,7 @@ import (
 type Publish struct {
 	Database *mongo.Database
 	Logger   *zap.Logger
-	Nats     *nats.Conn
+	Nats     nats2.Nats
 }
 
 func (publish Publish) Handle(c echo.Context) error {
@@ -39,10 +39,7 @@ func (publish Publish) Handle(c echo.Context) error {
 		publish.Logger.Error("insert into database failed", zap.Error(err))
 	}
 
-	e := publish.Nats.Publish(item.To, []byte(item.Msg))
-	if e != nil {
-		publish.Logger.Error("nats publishing failed", zap.Error(e))
-	}
+	publish.Nats.Publish(item.To, []byte(item.Msg))
 
 	return c.JSON(http.StatusOK, data)
 }
