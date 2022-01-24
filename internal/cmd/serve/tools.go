@@ -1,7 +1,7 @@
 package serve
 
 import (
-	"github.com/nats-io/nats.go"
+	nats2 "Telegraph/internal/nats"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
 )
@@ -9,5 +9,5 @@ import (
 type Tools struct {
 	Database *mongo.Database
 	Logger   *zap.Logger
-	Nats     *nats.Conn
+	Nats     nats2.Nats
 }

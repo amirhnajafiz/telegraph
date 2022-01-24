@@ -5,8 +5,8 @@ import (
 	"Telegraph/internal/http/handler/root"
 	"Telegraph/internal/http/handler/subscribe"
 	"Telegraph/internal/http/handler/suppress"
+	nats2 "Telegraph/internal/nats"
 	"github.com/labstack/echo/v4"
-	"github.com/nats-io/nats.go"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
 )
@@ -14,7 +14,7 @@ import (
 type Handler struct {
 	Database *mongo.Database
 	Logger   *zap.Logger
-	Nats     *nats.Conn
+	Nats     nats2.Nats
 }
 
 func (h Handler) Set(app *echo.Echo) {
