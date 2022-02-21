@@ -5,7 +5,7 @@ import (
 	"go.uber.org/zap"
 )
 
-type Requirements struct {
+type Migrate struct {
 	Database *mongo.Database
 	Logger   *zap.Logger
 }
