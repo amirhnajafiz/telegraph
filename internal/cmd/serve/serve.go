@@ -6,7 +6,7 @@ import (
 	"go.uber.org/zap"
 )
 
-type Tools struct {
+type Serve struct {
 	Database *mongo.Database
 	Logger   *zap.Logger
 	Nats     nats2.Nats
