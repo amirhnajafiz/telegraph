@@ -28,8 +28,7 @@ func Exec() {
 	n := nats.Nats{
 		Logger: log.Named("nats"),
 		Conf:   cfg.Nats,
-	}
-	n.Connection = n.Setup()
+	}.Setup()
 
 	e := serve.Serve{
 		Database: database,

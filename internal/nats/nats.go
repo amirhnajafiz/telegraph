@@ -14,13 +14,14 @@ type Nats struct {
 
 var timeout = time.Second * 5
 
-func (n Nats) Setup() *nats.Conn {
-	nc, err := nats.Connect(n.Conf.URL)
-	if err != nil {
+func (n Nats) Setup() Nats {
+	var err error
+
+	if n.Connection, err = nats.Connect(n.Conf.URL); err != nil {
 		n.Logger.Error("nats connection failed", zap.Error(err))
 	}
 
-	return nc
+	return n
 }
 
 func (n Nats) Publish(subject string, message []byte) {
