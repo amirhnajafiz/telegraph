@@ -20,10 +20,10 @@ func Exec() {
 		log.Fatal("database initiation failed", zap.Error(er))
 	}
 
-	migrate.Do(migrate.Requirements{
+	migrate.Migrate{
 		Database: database,
-		Logger:   log.Named("database"),
-	})
+		Logger:   log.Named("migrate"),
+	}.Do()
 
 	n := nats.Nats{
 		Logger: log.Named("nats"),
@@ -31,11 +31,11 @@ func Exec() {
 	}
 	n.Connection = n.Setup()
 
-	e := serve.GetServer(serve.Tools{
+	e := serve.Serve{
 		Database: database,
 		Logger:   log.Named("serve"),
 		Nats:     n,
-	})
+	}.GetServer()
 
 	err := e.Start(":5000")
 	log.Fatal("error starting server", zap.Error(err))
