@@ -2,11 +2,10 @@ package handler
 
 import (
 	"context"
-	"github.com/amirhnajafiz/Telegraph/internal/store"
 	"net/http"
 	"time"
 
-	"github.com/amirhnajafiz/Telegraph/internal/store/message"
+	"github.com/amirhnajafiz/Telegraph/internal/store"
 	"github.com/amirhnajafiz/Telegraph/pkg/validate"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -35,7 +34,7 @@ func (publish Publish) Handle(c echo.Context) error {
 	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
 	defer endCtx()
 
-	err := message.Store(publish.Database, ctx, item)
+	err := store.Message{}.Store(publish.Database, ctx, item)
 	if err != nil {
 		publish.Logger.Error("insert into database failed", zap.Error(err))
 	}

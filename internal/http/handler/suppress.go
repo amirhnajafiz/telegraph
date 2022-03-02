@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/amirhnajafiz/Telegraph/internal/store/message"
+	"github.com/amirhnajafiz/Telegraph/internal/store"
 	"github.com/amirhnajafiz/Telegraph/pkg/validate"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -30,7 +30,7 @@ func (s Suppress) Handle(c echo.Context) error {
 	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
 	defer endCtx()
 
-	res := message.All(s.Database, ctx, user)
+	res := store.Message{}.All(s.Database, ctx, user)
 
 	return c.JSON(http.StatusOK, res)
 }
