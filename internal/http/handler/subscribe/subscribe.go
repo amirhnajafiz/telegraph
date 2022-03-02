@@ -3,17 +3,18 @@ package subscribe
 import (
 	"net/http"
 
-	"github.com/amirhnajafiz/Telegraph/internal/http/request"
+	"github.com/amirhnajafiz/Telegraph/pkg/validate"
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
 )
 
 type Subscribe struct {
-	Logger *zap.Logger
+	Logger   *zap.Logger
+	Validate validate.Validate
 }
 
 func (s Subscribe) Handle(c echo.Context) error {
-	valid, _ := request.SuppressValidate(c)
+	valid, _ := s.Validate.SuppressValidate(c)
 
 	if valid.Encode() != "" {
 		return c.JSON(http.StatusBadRequest, valid)

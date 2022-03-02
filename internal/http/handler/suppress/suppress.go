@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/amirhnajafiz/Telegraph/internal/http/request"
 	"github.com/amirhnajafiz/Telegraph/internal/store/message"
+	"github.com/amirhnajafiz/Telegraph/pkg/validate"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
@@ -15,10 +15,11 @@ import (
 type Suppress struct {
 	Database *mongo.Database
 	Logger   *zap.Logger
+	Validate validate.Validate
 }
 
 func (s Suppress) Handle(c echo.Context) error {
-	valid, _ := request.SuppressValidate(c)
+	valid, _ := s.Validate.SuppressValidate(c)
 
 	if valid.Encode() != "" {
 		return c.JSON(http.StatusBadRequest, valid)
