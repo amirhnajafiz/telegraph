@@ -1,4 +1,4 @@
-package suppress
+package handler
 
 import (
 	"testing"
@@ -6,6 +6,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestSuppress(t *testing.T) {
+func TestSubscribe(t *testing.T) {
 	assert.True(t, true, "This is true")
 }

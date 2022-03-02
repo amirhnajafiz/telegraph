@@ -1,4 +1,4 @@
-package subscribe
+package handler
 
 import (
 	"testing"
@@ -6,6 +6,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestSubscribe(t *testing.T) {
+func TestRoot(t *testing.T) {
 	assert.True(t, true, "This is true")
 }

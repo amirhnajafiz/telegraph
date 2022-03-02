@@ -1,4 +1,4 @@
-package root
+package handler
 
 import (
 	"testing"
@@ -6,6 +6,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestRoot(t *testing.T) {
+func TestSuppress(t *testing.T) {
 	assert.True(t, true, "This is true")
 }

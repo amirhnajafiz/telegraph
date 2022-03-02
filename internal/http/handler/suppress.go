@@ -1,4 +1,4 @@
-package suppress
+package handler
 
 import (
 	"context"
