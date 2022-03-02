@@ -7,13 +7,15 @@ import (
 	"github.com/thedevsaddam/govalidator"
 )
 
+type Validate struct{}
+
 var (
 	JsonType   = "json"
 	InputType  = "input"
 	StructType = "struct"
 )
 
-func do(opts govalidator.Options, validateType string) (url.Values, map[string]interface{}) {
+func (Validate) do(opts govalidator.Options, validateType string) (url.Values, map[string]interface{}) {
 	data := make(map[string]interface{})
 	opts.Data = &data
 
@@ -32,7 +34,7 @@ func do(opts govalidator.Options, validateType string) (url.Values, map[string]i
 	return e, data
 }
 
-func SuppressValidate(r echo.Context) (url.Values, map[string]interface{}) {
+func (v Validate) SuppressValidate(r echo.Context) (url.Values, map[string]interface{}) {
 	rules := govalidator.MapData{
 		"sender": []string{"required", "between:4,20"},
 	}
@@ -43,10 +45,10 @@ func SuppressValidate(r echo.Context) (url.Values, map[string]interface{}) {
 		RequiredDefault: true,        // all the field to be pass the rules
 	}
 
-	return do(opts, InputType)
+	return v.do(opts, InputType)
 }
 
-func PublishValidate(r echo.Context) (url.Values, map[string]interface{}) {
+func (v Validate) PublishValidate(r echo.Context) (url.Values, map[string]interface{}) {
 	rules := govalidator.MapData{
 		"from":    []string{"required", "between:4,20"},
 		"to":      []string{"required", "between:4,20"},
@@ -59,5 +61,5 @@ func PublishValidate(r echo.Context) (url.Values, map[string]interface{}) {
 		RequiredDefault: true,        // all the field to be pass the rules
 	}
 
-	return do(opts, JsonType)
+	return v.do(opts, JsonType)
 }
