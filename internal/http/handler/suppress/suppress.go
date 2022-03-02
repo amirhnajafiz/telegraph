@@ -1,14 +1,15 @@
 package suppress
 
 import (
-	"Telegraph/internal/http/request"
-	"Telegraph/internal/store/message"
 	"context"
+	"net/http"
+	"time"
+
+	"github.com/amirhnajafiz/Telegraph/internal/http/request"
+	"github.com/amirhnajafiz/Telegraph/internal/store/message"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
-	"net/http"
-	"time"
 )
 
 type Suppress struct {

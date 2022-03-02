@@ -1,9 +1,10 @@
 package root
 
 import (
+	"net/http"
+
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
-	"net/http"
 )
 
 type Root struct {

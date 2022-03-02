@@ -2,11 +2,12 @@ package db
 
 import (
 	"context"
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
-	"testing"
 )
 
 func TestNewDB(t *testing.T) {

@@ -2,9 +2,10 @@ package message
 
 import (
 	"context"
+	"time"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
-	"time"
 )
 
 func Store(database *mongo.Database, ctx context.Context, item *Message) error {

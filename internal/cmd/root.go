@@ -1,19 +1,17 @@
 package cmd
 
 import (
-	"Telegraph/internal/cmd/migrate"
-	"Telegraph/internal/cmd/serve"
-	"Telegraph/internal/config"
-	"Telegraph/internal/db"
-	"Telegraph/internal/logger"
+	"github.com/amirhnajafiz/Telegraph/internal/cmd/migrate"
+	"github.com/amirhnajafiz/Telegraph/internal/cmd/serve"
+	"github.com/amirhnajafiz/Telegraph/internal/config"
+	"github.com/amirhnajafiz/Telegraph/internal/db"
+	"github.com/amirhnajafiz/Telegraph/internal/logger"
 	"go.uber.org/zap"
 )
 
 func Exec() {
 	cfg := config.Load()
-
 	log := logger.NewLogger(cfg.Logger)
-
 	database, er := db.NewDB(cfg.Database)
 	if er != nil {
 		log.Fatal("database initiation failed", zap.Error(er))

@@ -1,8 +1,9 @@
 package suppress
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSuppress(t *testing.T) {

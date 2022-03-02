@@ -1,8 +1,8 @@
 package config
 
 import (
-	"Telegraph/internal/db"
-	"Telegraph/internal/logger"
+	"github.com/amirhnajafiz/Telegraph/internal/db"
+	"github.com/amirhnajafiz/Telegraph/internal/logger"
 )
 
 func Default() Config {

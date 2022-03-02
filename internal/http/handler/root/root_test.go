@@ -1,8 +1,9 @@
 package root
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestRoot(t *testing.T) {

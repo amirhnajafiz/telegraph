@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"Telegraph/internal/http/handler/publish"
-	"Telegraph/internal/http/handler/root"
-	"Telegraph/internal/http/handler/subscribe"
-	"Telegraph/internal/http/handler/suppress"
+	"github.com/amirhnajafiz/Telegraph/internal/http/handler/publish"
+	"github.com/amirhnajafiz/Telegraph/internal/http/handler/root"
+	"github.com/amirhnajafiz/Telegraph/internal/http/handler/subscribe"
+	"github.com/amirhnajafiz/Telegraph/internal/http/handler/suppress"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"

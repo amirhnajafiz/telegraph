@@ -1,4 +1,4 @@
-module Telegraph
+module github.com/amirhnajafiz/Telegraph
 
 go 1.17
 

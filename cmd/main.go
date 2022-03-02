@@ -1,7 +1,7 @@
 package main
 
 import (
-	"Telegraph/internal/cmd"
+	"github.com/amirhnajafiz/Telegraph/internal/cmd"
 )
 
 func main() {

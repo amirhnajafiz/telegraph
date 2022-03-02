@@ -1,10 +1,11 @@
 package logger
 
 import (
-	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 	"log"
 	"os"
+
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 func NewLogger(cfg Config) *zap.Logger {

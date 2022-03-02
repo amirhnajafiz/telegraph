@@ -1,10 +1,11 @@
 package subscribe
 
 import (
-	"Telegraph/internal/http/request"
+	"net/http"
+
+	"github.com/amirhnajafiz/Telegraph/internal/http/request"
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
-	"net/http"
 )
 
 type Subscribe struct {

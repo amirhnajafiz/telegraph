@@ -4,5 +4,3 @@ logger:
 databse:
   name: telegraph
   url: mongodb://127.0.0.1:27017
-nats:
-  url: 127.0.0.1:4222

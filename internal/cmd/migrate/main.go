@@ -1,8 +1,8 @@
 package migrate
 
 import (
-	"Telegraph/internal/store/message"
-	"Telegraph/internal/store/user"
+	"github.com/amirhnajafiz/Telegraph/internal/store/message"
+	"github.com/amirhnajafiz/Telegraph/internal/store/user"
 )
 
 func (m Migrate) Do() {

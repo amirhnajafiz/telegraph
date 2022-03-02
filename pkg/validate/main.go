@@ -1,8 +1,9 @@
 package validate
 
 import (
-	"github.com/thedevsaddam/govalidator"
 	"net/url"
+
+	"github.com/thedevsaddam/govalidator"
 )
 
 var (

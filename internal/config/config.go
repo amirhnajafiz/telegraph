@@ -1,14 +1,15 @@
 package config
 
 import (
-	"Telegraph/internal/db"
-	"Telegraph/internal/logger"
 	"encoding/json"
+	"log"
+
+	"github.com/amirhnajafiz/Telegraph/internal/db"
+	"github.com/amirhnajafiz/Telegraph/internal/logger"
 	"github.com/knadh/koanf"
 	"github.com/knadh/koanf/parsers/yaml"
 	"github.com/knadh/koanf/providers/file"
 	"github.com/knadh/koanf/providers/structs"
-	"log"
 )
 
 type (

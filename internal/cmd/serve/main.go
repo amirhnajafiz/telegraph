@@ -1,7 +1,7 @@
 package serve
 
 import (
-	"Telegraph/internal/http/handler"
+	"github.com/amirhnajafiz/Telegraph/internal/http/handler"
 	"github.com/labstack/echo/v4"
 )
 

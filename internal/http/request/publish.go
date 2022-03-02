@@ -1,10 +1,11 @@
 package request
 
 import (
-	"Telegraph/pkg/validate"
+	"net/url"
+
+	"github.com/amirhnajafiz/Telegraph/pkg/validate"
 	"github.com/labstack/echo/v4"
 	"github.com/thedevsaddam/govalidator"
-	"net/url"
 )
 
 func PublishValidate(r echo.Context) (url.Values, map[string]interface{}) {
