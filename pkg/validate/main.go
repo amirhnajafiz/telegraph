@@ -3,6 +3,7 @@ package validate
 import (
 	"net/url"
 
+	"github.com/labstack/echo/v4"
 	"github.com/thedevsaddam/govalidator"
 )
 
@@ -12,7 +13,7 @@ var (
 	StructType = "struct"
 )
 
-func Do(opts govalidator.Options, validateType string) (url.Values, map[string]interface{}) {
+func do(opts govalidator.Options, validateType string) (url.Values, map[string]interface{}) {
 	data := make(map[string]interface{})
 	opts.Data = &data
 
@@ -29,4 +30,34 @@ func Do(opts govalidator.Options, validateType string) (url.Values, map[string]i
 	}
 
 	return e, data
+}
+
+func SuppressValidate(r echo.Context) (url.Values, map[string]interface{}) {
+	rules := govalidator.MapData{
+		"sender": []string{"required", "between:4,20"},
+	}
+
+	opts := govalidator.Options{
+		Request:         r.Request(), // request object
+		Rules:           rules,       // rules map
+		RequiredDefault: true,        // all the field to be pass the rules
+	}
+
+	return do(opts, InputType)
+}
+
+func PublishValidate(r echo.Context) (url.Values, map[string]interface{}) {
+	rules := govalidator.MapData{
+		"from":    []string{"required", "between:4,20"},
+		"to":      []string{"required", "between:4,20"},
+		"message": []string{"between:0,250"},
+	}
+
+	opts := govalidator.Options{
+		Request:         r.Request(), // request object
+		Rules:           rules,       // rules map
+		RequiredDefault: true,        // all the field to be pass the rules
+	}
+
+	return do(opts, JsonType)
 }
