@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"github.com/amirhnajafiz/Telegraph/internal/store"
 	"net/http"
 	"time"
 
@@ -25,7 +26,7 @@ func (publish Publish) Handle(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, valid)
 	}
 
-	item := &message.Message{
+	item := &store.Message{
 		From: data["from"].(string),
 		To:   data["to"].(string),
 		Msg:  data["message"].(string),
