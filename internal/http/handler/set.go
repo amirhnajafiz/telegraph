@@ -5,7 +5,6 @@ import (
 	"Telegraph/internal/http/handler/root"
 	"Telegraph/internal/http/handler/subscribe"
 	"Telegraph/internal/http/handler/suppress"
-	nats2 "Telegraph/internal/nats"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
@@ -14,7 +13,6 @@ import (
 type Handler struct {
 	Database *mongo.Database
 	Logger   *zap.Logger
-	Nats     nats2.Nats
 }
 
 func (h Handler) Set(app *echo.Echo) {
@@ -25,12 +23,10 @@ func (h Handler) Set(app *echo.Echo) {
 	publish.Publish{
 		Database: h.Database,
 		Logger:   h.Logger.Named("publish"),
-		Nats:     h.Nats,
 	}.Register(app.Group("/api"))
 
 	subscribe.Subscribe{
 		Logger: h.Logger.Named("subscribe"),
-		Nats:   h.Nats,
 	}.Register(app.Group("/api"))
 
 	suppress.Suppress{
