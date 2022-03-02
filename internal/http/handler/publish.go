@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/amirhnajafiz/Telegraph/internal/store"
+	"github.com/amirhnajafiz/Telegraph/internal/db/store"
 	"github.com/amirhnajafiz/Telegraph/pkg/validate"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
