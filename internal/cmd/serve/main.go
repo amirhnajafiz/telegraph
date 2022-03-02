@@ -12,7 +12,6 @@ func (s Serve) GetServer() *echo.Echo {
 	handler.Handler{
 		Database: s.Database,
 		Logger:   s.Logger.Named("handler"),
-		Nats:     s.Nats,
 	}.Set(e)
 
 	return e

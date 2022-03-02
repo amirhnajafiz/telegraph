@@ -2,7 +2,6 @@ package publish
 
 import (
 	"Telegraph/internal/http/request"
-	nats2 "Telegraph/internal/nats"
 	"Telegraph/internal/store/message"
 	"context"
 	"github.com/labstack/echo/v4"
@@ -15,7 +14,6 @@ import (
 type Publish struct {
 	Database *mongo.Database
 	Logger   *zap.Logger
-	Nats     nats2.Nats
 }
 
 func (publish Publish) Handle(c echo.Context) error {
@@ -38,8 +36,6 @@ func (publish Publish) Handle(c echo.Context) error {
 	if err != nil {
 		publish.Logger.Error("insert into database failed", zap.Error(err))
 	}
-
-	publish.Nats.Publish(item.To, []byte(item.Msg))
 
 	return c.JSON(http.StatusOK, data)
 }

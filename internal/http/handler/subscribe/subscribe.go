@@ -2,7 +2,6 @@ package subscribe
 
 import (
 	"Telegraph/internal/http/request"
-	nats2 "Telegraph/internal/nats"
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
 	"net/http"
@@ -10,7 +9,6 @@ import (
 
 type Subscribe struct {
 	Logger *zap.Logger
-	Nats   nats2.Nats
 }
 
 func (s Subscribe) Handle(c echo.Context) error {
@@ -22,12 +20,7 @@ func (s Subscribe) Handle(c echo.Context) error {
 
 	id := c.FormValue("receiver")
 
-	msg, err := s.Nats.Subscribe(id)
-	if err != nil {
-		return c.String(http.StatusNoContent, "")
-	}
-
-	return c.JSON(http.StatusOK, msg)
+	return c.JSON(http.StatusOK, id)
 }
 
 func (s Subscribe) Register(g *echo.Group) {
