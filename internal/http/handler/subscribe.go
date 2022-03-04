@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"fmt"
+	"github.com/amirhnajafiz/Telegraph/pkg/jwt"
 	"net/http"
 
 	"github.com/amirhnajafiz/Telegraph/pkg/validate"
@@ -18,6 +20,10 @@ func (s Subscribe) Handle(c echo.Context) error {
 
 	if valid.Encode() != "" {
 		return c.JSON(http.StatusBadRequest, valid)
+	}
+
+	if auth, err := jwt.ParseToken(c.Request().Header.Get("jwt-token")); err != nil || !auth {
+		return fmt.Errorf("unauthorized user")
 	}
 
 	id := c.FormValue("receiver")
