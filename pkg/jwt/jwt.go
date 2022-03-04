@@ -28,3 +28,13 @@ func GenerateToken(user string) (string, error) {
 	// Create the JWT string
 	return token.SignedString(jwtKey)
 }
+
+func ParseToken(jwtToken string) (bool, error) {
+	// Initialize a new instance of `Claims`
+	claims := &JWT{}
+	tkn, err := jwt.ParseWithClaims(jwtToken, claims, func(token *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+
+	return tkn.Valid, err
+}
