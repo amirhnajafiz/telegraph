@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"net/http"
+	"time"
 
 	"github.com/amirhnajafiz/Telegraph/internal/db/store"
 	"github.com/amirhnajafiz/Telegraph/pkg/jwt"
@@ -19,6 +20,7 @@ type Join struct {
 }
 
 func (j Join) Handle(c echo.Context) error {
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	valid, data := j.Validate.PublishValidate(c)
 
 	if valid.Encode() != "" {
@@ -28,19 +30,16 @@ func (j Join) Handle(c echo.Context) error {
 	user := data["username"].(string)
 	pass := data["pass"].(string)
 	if user == "" {
-		c.Response().Status = http.StatusBadRequest
-		return c.String(http.StatusBadRequest, "no username found")
+		return c.String(http.StatusBadRequest, "must have a username")
 	}
 
-	ctx := context.Background()
 	client, err := store.Client{}.Find(j.Database, ctx, user)
 	if err != nil {
 		return err
 	}
 
 	if err != mongo.ErrEmptySlice && client.Pass != pass {
-		c.Response().Status = http.StatusUnauthorized
-		return c.String(http.StatusUnauthorized, "user and pass don't match")
+		return c.String(http.StatusUnauthorized, "username and password mismatched")
 	}
 
 	if err == mongo.ErrEmptySlice {
@@ -52,13 +51,10 @@ func (j Join) Handle(c echo.Context) error {
 
 	token, err := jwt.GenerateToken(user)
 	if err != nil {
-		c.Response().Status = http.StatusInternalServerError
-		return c.JSON(http.StatusInternalServerError, "token not build")
+		return c.JSON(http.StatusInternalServerError, "token generating failed")
 	}
 
-	return c.JSON(http.StatusOK, map[string]string{
-		"token": token,
-	})
+	return c.String(http.StatusOK, token)
 }
 
 func (j Join) Register(g *echo.Group) {
