@@ -35,9 +35,7 @@ func (publish Publish) Handle(c echo.Context) error {
 		Sender: data["sender"].(string),
 		Msg:    data["message"].(string),
 	}
-
-	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
-	defer endCtx()
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
 	err := store.Message{}.Store(publish.Database, ctx, item)
 	if err != nil {

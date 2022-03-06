@@ -32,10 +32,7 @@ func (s Suppress) Handle(c echo.Context) error {
 	}
 
 	user := c.FormValue("sender")
-
-	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
-	defer endCtx()
-
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	res := store.Message{}.All(s.Database, ctx, user)
 
 	return c.JSON(http.StatusOK, res)
