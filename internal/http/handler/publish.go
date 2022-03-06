@@ -32,9 +32,8 @@ func (publish Publish) Handle(c echo.Context) error {
 	}
 
 	item := &store.Message{
-		From: data["from"].(string),
-		To:   data["to"].(string),
-		Msg:  data["message"].(string),
+		Sender: data["sender"].(string),
+		Msg:    data["message"].(string),
 	}
 
 	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)

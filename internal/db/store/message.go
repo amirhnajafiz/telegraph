@@ -12,11 +12,10 @@ import (
 var MessageCollection = "messages"
 
 type Message struct {
-	ID   primitive.ObjectID `bson:"_id,omitempty"`
-	From string             `bson:"from,omitempty"`
-	To   string             `bson:"to,omitempty"`
-	Msg  string             `bson:"msg,omitempty"`
-	Date time.Time          `bson:"date,omitempty"`
+	ID     primitive.ObjectID `bson:"_id,omitempty"`
+	Sender string             `bson:"sender,omitempty"`
+	Msg    string             `bson:"msg,omitempty"`
+	Date   time.Time          `bson:"date,omitempty"`
 }
 
 func (Message) Store(database *mongo.Database, ctx context.Context, item *Message) error {
@@ -35,10 +34,7 @@ func (Message) Store(database *mongo.Database, ctx context.Context, item *Messag
 func (Message) All(database *mongo.Database, ctx context.Context, user string) []bson.M {
 	col := database.Collection(MessageCollection)
 
-	cursor, _ := col.Find(ctx, bson.D{{"$or", []interface{}{
-		bson.M{"from": user},
-		bson.M{"to": user},
-	}}})
+	cursor, _ := col.Find(ctx, bson.M{"sender": user})
 
 	defer cursor.Close(ctx)
 
