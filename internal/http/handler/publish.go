@@ -3,11 +3,11 @@ package handler
 import (
 	"context"
 	"fmt"
-	"github.com/amirhnajafiz/Telegraph/pkg/jwt"
 	"net/http"
 	"time"
 
 	"github.com/amirhnajafiz/Telegraph/internal/db/store"
+	"github.com/amirhnajafiz/Telegraph/pkg/jwt"
 	"github.com/amirhnajafiz/Telegraph/pkg/validate"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"

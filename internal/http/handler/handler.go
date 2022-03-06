@@ -26,11 +26,6 @@ func (h Handler) Set(app *echo.Echo) {
 		Validate: h.Validate,
 	}.Register(app.Group("/api"))
 
-	Subscribe{
-		Logger:   h.Logger.Named("subscribe"),
-		Validate: h.Validate,
-	}.Register(app.Group("/api"))
-
 	Suppress{
 		Database: h.Database,
 		Logger:   h.Logger.Named("suppress"),
