@@ -33,7 +33,6 @@ func (Message) Store(database *mongo.Database, ctx context.Context, item *Messag
 
 func (Message) All(database *mongo.Database, ctx context.Context, user string) []bson.M {
 	col := database.Collection(MessageCollection)
-
 	cursor, _ := col.Find(ctx, bson.M{"sender": user})
 
 	defer cursor.Close(ctx)
