@@ -1,7 +1,7 @@
 package migrate
 
 import (
-	store2 "github.com/amirhnajafiz/Telegraph/internal/db/store"
+	"github.com/amirhnajafiz/Telegraph/internal/db/store"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
 )
@@ -12,8 +12,8 @@ type Migrate struct {
 }
 
 func (m Migrate) Do() {
-	_ = m.Database.Collection(store2.MessageCollection)
-	_ = m.Database.Collection(store2.UserCollection)
+	_ = m.Database.Collection(store.MessageCollection)
+	_ = m.Database.Collection(store.UserCollection)
 
 	m.Logger.Info("collections created")
 }

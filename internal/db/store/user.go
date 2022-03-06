@@ -30,11 +30,12 @@ func (Client) Store(database *mongo.Database, ctx context.Context, client *Clien
 func (Client) Find(database *mongo.Database, ctx context.Context, name string) (Client, error) {
 	col := database.Collection(UserCollection)
 	cursor, _ := col.Find(ctx, bson.M{"name": name})
-
 	defer cursor.Close(ctx)
 
-	var data bson.M
-	var client Client
+	var (
+		data   bson.M
+		client Client
+	)
 	if err := cursor.Decode(&data); err != nil {
 		return client, err
 	}

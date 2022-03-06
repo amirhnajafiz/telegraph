@@ -22,7 +22,6 @@ type Suppress struct {
 
 func (s Suppress) Handle(c echo.Context) error {
 	valid, _ := s.Validate.SuppressValidate(c)
-
 	if valid.Encode() != "" {
 		return c.JSON(http.StatusBadRequest, valid)
 	}
@@ -32,7 +31,9 @@ func (s Suppress) Handle(c echo.Context) error {
 	}
 
 	user := c.FormValue("sender")
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
+	defer endCtx()
+
 	res := store.Message{}.All(s.Database, ctx, user)
 
 	return c.JSON(http.StatusOK, res)

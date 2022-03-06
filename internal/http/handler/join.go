@@ -20,9 +20,10 @@ type Join struct {
 }
 
 func (j Join) Handle(c echo.Context) error {
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	valid, data := j.Validate.PublishValidate(c)
+	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
+	defer endCtx()
 
+	valid, data := j.Validate.PublishValidate(c)
 	if valid.Encode() != "" {
 		return c.JSON(http.StatusBadRequest, valid)
 	}

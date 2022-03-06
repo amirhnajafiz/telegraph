@@ -25,7 +25,6 @@ type Publish struct {
 
 func (publish Publish) Handle(c echo.Context) error {
 	valid, data := publish.Validate.PublishValidate(c)
-
 	if valid.Encode() != "" {
 		return c.JSON(http.StatusBadRequest, valid)
 	}
@@ -38,7 +37,8 @@ func (publish Publish) Handle(c echo.Context) error {
 		Sender: data["sender"].(string),
 		Msg:    data["message"].(string),
 	}
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
+	defer endCtx()
 
 	err := store.Message{}.Store(publish.Database, ctx, item)
 	if err != nil {
