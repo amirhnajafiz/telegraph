@@ -6,6 +6,7 @@ import (
 
 	"github.com/amirhnajafiz/Telegraph/internal/db"
 	"github.com/amirhnajafiz/Telegraph/internal/logger"
+	"github.com/amirhnajafiz/Telegraph/internal/nats"
 	"github.com/knadh/koanf"
 	"github.com/knadh/koanf/parsers/yaml"
 	"github.com/knadh/koanf/providers/file"
@@ -16,6 +17,7 @@ type (
 	Config struct {
 		Database db.Config     `koanf:"database"`
 		Logger   logger.Config `koanf:"logger"`
+		Nats     nats.Config   `koanf:"nats"`
 	}
 )
 
