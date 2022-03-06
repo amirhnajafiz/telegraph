@@ -14,10 +14,6 @@ type Handler struct {
 }
 
 func (h Handler) Set(app *echo.Echo) {
-	Root{
-		Logger: h.Logger.Named("root"),
-	}.Register(app.Group("/api"))
-
 	Publish{
 		Database: h.Database,
 		Logger:   h.Logger.Named("publish"),
