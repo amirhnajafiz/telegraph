@@ -39,11 +39,11 @@ func (j Join) Handle(c echo.Context) error {
 		return err
 	}
 
-	if err != mongo.ErrEmptySlice && client.Pass != pass {
+	if err != mongo.ErrNilCursor && client.Pass != pass {
 		return c.String(http.StatusUnauthorized, "username and password mismatched")
 	}
 
-	if err == mongo.ErrEmptySlice {
+	if err == mongo.ErrNilCursor {
 		_ = store.Client{}.Store(j.Database, ctx, &store.Client{
 			Name: user,
 			Pass: pass,
