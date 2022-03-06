@@ -14,6 +14,12 @@ type Handler struct {
 }
 
 func (h Handler) Set(app *echo.Echo) {
+	Join{
+		Database: h.Database,
+		Logger:   h.Logger.Named("join"),
+		Validate: h.Validate,
+	}.Register(app.Group("/api"))
+
 	Publish{
 		Database: h.Database,
 		Logger:   h.Logger.Named("publish"),
