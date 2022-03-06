@@ -2,13 +2,14 @@ package handler
 
 import (
 	"context"
+	"net/http"
+
 	"github.com/amirhnajafiz/Telegraph/internal/db/store"
 	"github.com/amirhnajafiz/Telegraph/pkg/jwt"
 	"github.com/amirhnajafiz/Telegraph/pkg/validate"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
-	"net/http"
 )
 
 type Join struct {
@@ -37,12 +38,12 @@ func (j Join) Handle(c echo.Context) error {
 		return err
 	}
 
-	if client.Pass != "" && client.Pass != pass {
+	if err != mongo.ErrEmptySlice && client.Pass != pass {
 		c.Response().Status = http.StatusUnauthorized
 		return c.String(http.StatusUnauthorized, "user and pass don't match")
 	}
 
-	if client.Pass == "" {
+	if err == mongo.ErrEmptySlice {
 		_ = store.Client{}.Store(j.Database, ctx, &store.Client{
 			Name: user,
 			Pass: pass,
