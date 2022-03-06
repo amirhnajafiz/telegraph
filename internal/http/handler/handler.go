@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"github.com/amirhnajafiz/Telegraph/internal/nats"
 	"github.com/amirhnajafiz/Telegraph/pkg/validate"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -10,6 +11,7 @@ import (
 type Handler struct {
 	Database *mongo.Database
 	Logger   *zap.Logger
+	Nats     nats.Nats
 	Validate validate.Validate
 }
 
@@ -21,9 +23,10 @@ func (h Handler) Set(app *echo.Echo) {
 	}.Register(app.Group("/api"))
 
 	Publish{
-		Database: h.Database,
-		Logger:   h.Logger.Named("publish"),
-		Validate: h.Validate,
+		Database:       h.Database,
+		Logger:         h.Logger.Named("publish"),
+		NatsConnection: h.Nats.New(),
+		Validate:       h.Validate,
 	}.Register(app.Group("/api"))
 
 	Suppress{

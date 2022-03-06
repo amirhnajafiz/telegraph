@@ -6,6 +6,7 @@ import (
 	"github.com/amirhnajafiz/Telegraph/internal/config"
 	"github.com/amirhnajafiz/Telegraph/internal/db"
 	"github.com/amirhnajafiz/Telegraph/internal/logger"
+	"github.com/amirhnajafiz/Telegraph/internal/nats"
 	"go.uber.org/zap"
 )
 
@@ -25,6 +26,10 @@ func Exec() {
 	e := serve.Serve{
 		Database: database,
 		Logger:   log.Named("serve"),
+		Nats: nats.Nats{
+			Logger: log.Named("nats"),
+			Cfg:    cfg.Nats,
+		},
 	}.GetServer()
 
 	err := e.Start(":5000")
