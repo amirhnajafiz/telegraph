@@ -29,25 +29,20 @@ func (j Join) Handle(c echo.Context) error {
 	}
 
 	user := data["username"].(string)
-	pass := data["pass"].(string)
+	pass := data["password"].(string)
 	if user == "" {
 		return c.String(http.StatusBadRequest, "must have a username")
 	}
 
 	client, err := store.Client{}.Find(j.Database, ctx, user)
-	if err != nil {
-		return err
-	}
 
-	if err != mongo.ErrNilCursor && client.Pass != pass {
-		return c.String(http.StatusUnauthorized, "username and password mismatched")
-	}
-
-	if err == mongo.ErrNilCursor {
+	if err == mongo.ErrClientDisconnected {
 		_ = store.Client{}.Store(j.Database, ctx, &store.Client{
 			Name: user,
 			Pass: pass,
 		})
+	} else if client.Pass != pass {
+		return c.String(http.StatusUnauthorized, "username and password mismatched")
 	}
 
 	token, err := jwt.GenerateToken(user)

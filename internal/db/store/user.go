@@ -2,6 +2,7 @@ package store
 
 import (
 	"context"
+	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -28,14 +29,20 @@ func (Client) Store(database *mongo.Database, ctx context.Context, client *Clien
 }
 
 func (Client) Find(database *mongo.Database, ctx context.Context, name string) (Client, error) {
-	col := database.Collection(UserCollection)
-	cursor, _ := col.Find(ctx, bson.M{"name": name})
-	defer cursor.Close(ctx)
-
 	var (
 		data   bson.M
 		client Client
 	)
+
+	col := database.Collection(UserCollection)
+	cursor, err := col.Find(ctx, bson.M{"name": name})
+
+	if err != nil {
+		fmt.Println(err)
+		return client, err
+	}
+
+	defer cursor.Close(ctx)
 	if err := cursor.Decode(&data); err != nil {
 		return client, err
 	}
