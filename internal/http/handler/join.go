@@ -23,7 +23,7 @@ func (j Join) Handle(c echo.Context) error {
 	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
 	defer endCtx()
 
-	valid, data := j.Validate.PublishValidate(c)
+	valid, data := j.Validate.JoinValidate(c)
 	if valid.Encode() != "" {
 		return c.JSON(http.StatusBadRequest, valid)
 	}

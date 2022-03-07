@@ -6,7 +6,7 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-var jwtKey = []byte("my_secret_key")
+var jwtKey = []byte("telegraph_secret_key")
 
 type JWT struct {
 	Username string `json:"username"`
