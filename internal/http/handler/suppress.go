@@ -2,12 +2,11 @@ package handler
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"time"
 
 	"github.com/amirhnajafiz/Telegraph/internal/db/store"
-	"github.com/amirhnajafiz/Telegraph/pkg/jwt"
+	"github.com/amirhnajafiz/Telegraph/internal/http/middleware"
 	"github.com/amirhnajafiz/Telegraph/pkg/validate"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -26,10 +25,6 @@ func (s Suppress) Handle(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, valid)
 	}
 
-	if auth, err := jwt.ParseToken(c.Request().Header.Get("jwt-token")); err != nil || !auth {
-		return fmt.Errorf("unauthorized user")
-	}
-
 	user := c.FormValue("sender")
 	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
 	defer endCtx()
@@ -40,5 +35,5 @@ func (s Suppress) Handle(c echo.Context) error {
 }
 
 func (s Suppress) Register(g *echo.Group) {
-	g.GET("/suppress", s.Handle)
+	g.GET("/suppress", s.Handle, middleware.Authenticate)
 }

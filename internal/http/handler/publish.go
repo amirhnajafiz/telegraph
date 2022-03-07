@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/amirhnajafiz/Telegraph/internal/db/store"
-	"github.com/amirhnajafiz/Telegraph/pkg/jwt"
+	"github.com/amirhnajafiz/Telegraph/internal/http/middleware"
 	"github.com/amirhnajafiz/Telegraph/pkg/validate"
 	"github.com/labstack/echo/v4"
 	"github.com/nats-io/nats.go"
@@ -26,14 +26,6 @@ func (publish Publish) Handle(c echo.Context) error {
 	valid, data := publish.Validate.PublishValidate(c)
 	if valid.Encode() != "" {
 		return c.JSON(http.StatusBadRequest, valid)
-	}
-
-	if c.Request().Header.Get("jwt-token") == "" {
-		return c.String(http.StatusBadRequest, "no jwt-token in request header")
-	}
-
-	if auth, err := jwt.ParseToken(c.Request().Header.Get("jwt-token")); err != nil || !auth {
-		return c.String(http.StatusUnauthorized, "not an authenticate user")
 	}
 
 	item := &store.Message{
@@ -57,5 +49,5 @@ func (publish Publish) Handle(c echo.Context) error {
 }
 
 func (publish Publish) Register(g *echo.Group) {
-	g.POST("/publish", publish.Handle)
+	g.POST("/publish", publish.Handle, middleware.Authenticate)
 }
