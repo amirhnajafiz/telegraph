@@ -21,6 +21,10 @@ func NewDB(cfg Config) (*mongo.Database, error) {
 		return nil, fmt.Errorf("create a new db client faild: %w", err)
 	}
 
+	if err := client.Connect(context.Background()); err != nil {
+		return nil, err
+	}
+
 	if err := client.Ping(context.TODO(), readpref.Primary()); err != nil {
 		// Can't connect to Mongo server
 		return nil, err
