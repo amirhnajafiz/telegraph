@@ -3,7 +3,6 @@ package handler
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -29,8 +28,12 @@ func (publish Publish) Handle(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, valid)
 	}
 
+	if c.Request().Header.Get("jwt-token") == "" {
+		return c.String(http.StatusBadRequest, "no jwt-token in request header")
+	}
+
 	if auth, err := jwt.ParseToken(c.Request().Header.Get("jwt-token")); err != nil || !auth {
-		return fmt.Errorf("unauthorized user")
+		return c.String(http.StatusUnauthorized, "not an authenticate user")
 	}
 
 	item := &store.Message{
