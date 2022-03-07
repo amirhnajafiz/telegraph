@@ -1,6 +1,10 @@
 package handler
 
 import (
+	"context"
+	"net/http"
+	"time"
+
 	"github.com/amirhnajafiz/Telegraph/internal/nats"
 	"github.com/amirhnajafiz/Telegraph/pkg/validate"
 	"github.com/labstack/echo/v4"
@@ -33,4 +37,11 @@ func (h Handler) Set(app *echo.Echo) {
 		Database: h.Database,
 		Logger:   h.Logger.Named("suppress"),
 	}.Register(app.Group("/api"))
+
+	app.GET("/api/db", func(c echo.Context) error {
+		ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
+		defer endCtx()
+
+		return c.String(http.StatusOK, h.Database.Client().Ping(ctx, nil).Error())
+	})
 }

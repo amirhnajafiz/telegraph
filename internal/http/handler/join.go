@@ -36,7 +36,7 @@ func (j Join) Handle(c echo.Context) error {
 
 	client, err := store.Client{}.Find(j.Database, ctx, user)
 
-	if err != mongo.ErrClientDisconnected && client.Pass != pass {
+	if err != mongo.ErrNilCursor && client.Pass != pass {
 		return c.String(http.StatusUnauthorized, "username and password mismatched")
 	}
 
