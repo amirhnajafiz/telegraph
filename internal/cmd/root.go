@@ -32,6 +32,6 @@ func Exec() {
 		},
 	}.GetServer()
 
-	err := e.Start(":5000")
+	err := e.Start(":8080")
 	log.Fatal("error starting server", zap.Error(err))
 }
