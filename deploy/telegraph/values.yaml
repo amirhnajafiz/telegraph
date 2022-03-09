@@ -80,3 +80,15 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+nats:
+  ports:
+    - "4222:4222"
+  command: "--cluster_name NATS --cluster nats://0.0.0.0:6222 --http_port 4222 "
+mongo:
+  ports:
+    - "8081:8081"
+  environment:
+    ME_CONFIG_MONGODB_ADMINUSERNAME: root
+    ME_CONFIG_MONGODB_ADMINPASSWORD: mongopassword
+    ME_CONFIG_MONGODB_URL: mongodb://localhost:27017/

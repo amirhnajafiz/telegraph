@@ -26,3 +26,6 @@ dependencies:
   - name: nats
     version: 0.13.2
     repository: https://nats-io.github.io/k8s/helm/charts/
+  - name: mongo
+    version: 11.0.0
+    repository: https://charts.bitnami.com/bitnami
