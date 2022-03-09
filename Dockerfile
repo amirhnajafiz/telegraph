@@ -26,4 +26,4 @@ WORKDIR /app
 RUN mv ./cmd/telegraph ./telegraph
 
 # run the application
-CMD ["/telegraph"]
+CMD ["./telegraph"]
