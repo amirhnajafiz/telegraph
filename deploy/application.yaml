@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Application
+metadata:
+  name: telegraph
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/amirhnajafiz/Telegraph.git
+    targetRevision: HEAD
+  destination:
+    server: # Cluster ip
+    namespace: # Cluster namespace
+stringData:
+  name: telegraph
+  url: https://github.com/amirhnajafiz/Telegraph/tree/master/deploy/telegraph
+  type: helm
