@@ -2,7 +2,7 @@ package handler
 
 import (
 	"github.com/amirhnajafiz/Telegraph/internal/nats"
-	"github.com/amirhnajafiz/Telegraph/pkg/validate"
+	"github.com/amirhnajafiz/Telegraph/internal/validate"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"

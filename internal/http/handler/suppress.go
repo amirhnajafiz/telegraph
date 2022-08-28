@@ -7,7 +7,7 @@ import (
 
 	"github.com/amirhnajafiz/Telegraph/internal/db/store"
 	"github.com/amirhnajafiz/Telegraph/internal/http/middleware"
-	"github.com/amirhnajafiz/Telegraph/pkg/validate"
+	"github.com/amirhnajafiz/Telegraph/internal/validate"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
