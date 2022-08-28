@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"github.com/amirhnajafiz/telegraph/internal/http/middleware"
 	"net/http"
 	"time"
 
@@ -100,7 +101,7 @@ func (h *Handler) suppress(c echo.Context) error {
 }
 
 func (h Handler) Set(app *echo.Group) {
-	app.POST("/join", h.join)
-	app.POST("/publish", h.publish)
-	app.GET("/suppress", h.suppress)
+	app.POST("/join", middleware.Authenticate(h.join))
+	app.POST("/publish", middleware.Authenticate(h.publish))
+	app.GET("/suppress", middleware.Authenticate(h.suppress))
 }

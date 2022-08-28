@@ -22,9 +22,9 @@ func (s Serve) GetServer() *echo.Echo {
 	handler.Handler{
 		Database: s.Database,
 		Logger:   s.Logger.Named("handler"),
-		Nats:     s.Nats,
+		Nats:     s.Nats.New(),
 		Validate: validate.Validate{},
-	}.Set(e)
+	}.Set(e.Group("/api"))
 
 	return e
 }
