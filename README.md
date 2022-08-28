@@ -1,4 +1,6 @@
-# Telegraph
+<h1 align="center">
+Telegraph
+</h1>
 
 Telegraph is a web-communicator for sending and receiving messages via **nats** server.
 
@@ -24,108 +26,6 @@ Real time data streaming, highly resilient data storage and flexible data retrie
 JetStream , the next generation streaming platform built into the NATS server.
 
 <img src="./assets/nats-schema.png" />
-
-## How to use ?
-#### Join/Register to a room to begin the communications
-url:
-```shell
-/api/join
-```
-
-method:
-```shell
-POST
-```
-
-request:
-```json
-{
-  "username": "[your name]",
-  "password": "[your password]"
-}
-```
-
-response:
-```json
-{
-  "token": "[JWT token]"
-}
-```
-
-#### Send a message 
-url:
-```shell
-/api/publish
-```
-
-method:
-```shell
-POST
-```
-
-header:
-```json
-{
-  "jwt-token": "[the jwt token you got from join]"
-}
-```
-
-request:
-```json
-{
-  "sender": "[your application name]",
-  "message": "[message you want to send]"
-}
-```
-
-response:
-```json
-{
-  "id": "[message id]",
-  "sender": "[your name]",
-  "message": "[message you send]",
-  "time": "[local time of message sending]"
-}
-```
-
-#### Get previous messages of a person
-url:
-```shell
-/api/suppress
-```
-
-method:
-```shell
-GET
-```
-
-header:
-```json
-{
-  "jwt-token": "[the jwt token you got from join]"
-}
-```
-
-request (form value):
-```json
-{
-  "sender": "[sender name of messages]"
-}
-```
-
-response:
-```json
-{
-  "data": [
-    {
-      "id": "[message id]",
-      "sender": "[your name]",
-      "message": "[message you send]",
-      "time": "[local time of message sending]"
-    }, ...
-  ]
-}
-```
 
 ## Docker
 Use the following command to run the project on docker:
