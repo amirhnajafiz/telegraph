@@ -1,9 +1,9 @@
 package config
 
 import (
-	"github.com/amirhnajafiz/Telegraph/internal/db"
-	"github.com/amirhnajafiz/Telegraph/internal/logger"
-	"github.com/amirhnajafiz/Telegraph/internal/nats"
+	"github.com/amirhnajafiz/telegraph/internal/db"
+	"github.com/amirhnajafiz/telegraph/internal/logger"
+	"github.com/amirhnajafiz/telegraph/internal/nats"
 )
 
 func Default() Config {

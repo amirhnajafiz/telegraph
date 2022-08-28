@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"github.com/amirhnajafiz/Telegraph/internal/jwt"
+	"github.com/amirhnajafiz/telegraph/internal/jwt"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )

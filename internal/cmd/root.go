@@ -1,12 +1,12 @@
 package cmd
 
 import (
-	"github.com/amirhnajafiz/Telegraph/internal/cmd/migrate"
-	"github.com/amirhnajafiz/Telegraph/internal/cmd/serve"
-	"github.com/amirhnajafiz/Telegraph/internal/config"
-	"github.com/amirhnajafiz/Telegraph/internal/db"
-	"github.com/amirhnajafiz/Telegraph/internal/logger"
-	"github.com/amirhnajafiz/Telegraph/internal/nats"
+	"github.com/amirhnajafiz/telegraph/internal/cmd/migrate"
+	"github.com/amirhnajafiz/telegraph/internal/cmd/serve"
+	"github.com/amirhnajafiz/telegraph/internal/config"
+	"github.com/amirhnajafiz/telegraph/internal/db"
+	"github.com/amirhnajafiz/telegraph/internal/logger"
+	"github.com/amirhnajafiz/telegraph/internal/nats"
 	"go.uber.org/zap"
 )
 

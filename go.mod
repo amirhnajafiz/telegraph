@@ -1,4 +1,4 @@
-module github.com/amirhnajafiz/Telegraph
+module github.com/amirhnajafiz/telegraph
 
 go 1.18
 

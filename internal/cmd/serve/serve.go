@@ -1,9 +1,9 @@
 package serve
 
 import (
-	"github.com/amirhnajafiz/Telegraph/internal/http/handler"
-	"github.com/amirhnajafiz/Telegraph/internal/nats"
-	"github.com/amirhnajafiz/Telegraph/pkg/validate"
+	"github.com/amirhnajafiz/telegraph/internal/http/handler"
+	"github.com/amirhnajafiz/telegraph/internal/nats"
+	"github.com/amirhnajafiz/telegraph/internal/validate"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"

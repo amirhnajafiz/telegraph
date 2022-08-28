@@ -1,7 +1,7 @@
 package migrate
 
 import (
-	"github.com/amirhnajafiz/Telegraph/internal/db/store"
+	"github.com/amirhnajafiz/telegraph/internal/db/store"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
 )
