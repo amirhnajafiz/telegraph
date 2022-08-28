@@ -11,31 +11,55 @@ import (
 var MessageCollection = "messages"
 
 type Message struct {
-	ID     primitive.ObjectID `bson:"_id,omitempty"`
-	Sender string             `bson:"sender,omitempty"`
-	Msg    string             `bson:"msg,omitempty"`
-	Date   time.Time          `bson:"date,omitempty"`
+	ID      primitive.ObjectID `bson:"_id,omitempty"`
+	Client  string             `bson:"client,omitempty"`
+	Chat    string             `bson:"chat,omitempty"`
+	Message string             `bson:"message,omitempty"`
+	Date    time.Time          `bson:"date,omitempty"`
 }
 
-func (s *Store) InsertMessage(ctx context.Context, item *Message) (interface{}, error) {
+func (s *Store) InsertMessage(ctx context.Context, item *Message) error {
 	col := s.Database.Collection(MessageCollection)
+
 	item.Date = time.Now()
 
-	res, err := col.InsertOne(ctx, item)
-	if err != nil {
-		return nil, err
+	if _, err := col.InsertOne(ctx, item); err != nil {
+		return err
 	}
 
-	return res.InsertedID, nil
+	return nil
 }
 
-func (s *Store) GetAllMessages(ctx context.Context, user string) []bson.M {
+func (s *Store) GetChatMessages(ctx context.Context, chat string) ([]Message, error) {
+	filter := bson.D{{"chat", chat}}
 	col := s.Database.Collection(MessageCollection)
-	cursor, _ := col.Find(ctx, bson.M{"sender": user})
+
+	cursor, _ := col.Find(ctx, filter)
 	defer cursor.Close(ctx)
 
-	var results []bson.M
-	cursor.All(ctx, &results)
+	var (
+		message  Message
+		messages []Message
+	)
 
-	return results
+	for cursor.Next(ctx) {
+		if err := cursor.Decode(&message); err != nil {
+			return nil, err
+		}
+
+		messages = append(messages, message)
+	}
+
+	return messages, nil
+}
+
+func (s *Store) DeleteChatMessages(ctx context.Context, chat string) error {
+	filter := bson.D{{"chat", chat}}
+	col := s.Database.Collection(MessageCollection)
+
+	if _, err := col.DeleteMany(ctx, filter); err != nil {
+		return err
+	}
+
+	return nil
 }
