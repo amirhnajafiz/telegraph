@@ -78,6 +78,21 @@ func (v Validate) LoginValidate(r echo.Context) (url.Values, map[string]interfac
 	return v.do(opts, JsonType)
 }
 
+func (v Validate) RegisterValidate(r echo.Context) (url.Values, map[string]interface{}) {
+	rules := govalidator.MapData{
+		"username": []string{"required", "between:1,20"},
+		"password": []string{"required"},
+	}
+
+	opts := govalidator.Options{
+		Request:         r.Request(),
+		Rules:           rules,
+		RequiredDefault: true,
+	}
+
+	return v.do(opts, JsonType)
+}
+
 func (v Validate) JoinValidate(r echo.Context) (url.Values, map[string]interface{}) {
 	rules := govalidator.MapData{
 		"username": []string{"required", "between:1,20"},
