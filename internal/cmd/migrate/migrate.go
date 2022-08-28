@@ -1,19 +1,36 @@
 package migrate
 
 import (
+	"github.com/amirhnajafiz/telegraph/internal/config"
+	"github.com/amirhnajafiz/telegraph/internal/database"
+	"github.com/amirhnajafiz/telegraph/internal/logger"
 	"github.com/amirhnajafiz/telegraph/internal/store"
-	"go.mongodb.org/mongo-driver/mongo"
+	"github.com/spf13/cobra"
 	"go.uber.org/zap"
 )
 
-type Migrate struct {
-	Database *mongo.Database
-	Logger   *zap.Logger
+func GetCommand() *cobra.Command {
+	return &cobra.Command{
+		Short: "migrate",
+		Run: func(_ *cobra.Command, _ []string) {
+			main()
+		},
+	}
 }
 
-func (m Migrate) Do() {
-	_ = m.Database.Collection(store.MessageCollection)
-	_ = m.Database.Collection(store.UserCollection)
+func main() {
+	cfg := config.Load()
+	log := logger.NewLogger(cfg.Logger)
 
-	m.Logger.Info("collections created")
+	db, err := database.Connect(cfg.MongoDB)
+	if err != nil {
+		log.Error("mongo connection failed", zap.Error(err))
+
+		return
+	}
+
+	_ = db.Collection(store.MessageCollection)
+	_ = db.Collection(store.UserCollection)
+
+	log.Info("collections created")
 }
