@@ -22,6 +22,30 @@ type Handler struct {
 	Store    store.Store
 }
 
+func (h *Handler) register(c echo.Context) error {
+	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
+	defer endCtx()
+
+	valid, data := h.Validate.RegisterValidate(c)
+	if valid.Encode() != "" {
+		return c.JSON(http.StatusBadRequest, valid)
+	}
+
+	user := data["username"].(string)
+	pass := data["password"].(string)
+
+	client := &store.Client{
+		Name: user,
+		Pass: pass,
+	}
+
+	if err := h.Store.NewClient(ctx, client); err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.String(http.StatusNoContent, "login")
+}
+
 func (h *Handler) login(c echo.Context) error {
 	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
 	defer endCtx()
@@ -116,8 +140,10 @@ func (h *Handler) suppress(c echo.Context) error {
 
 func (h Handler) Set(app *echo.Group) {
 	app.POST("/login", h.login)
+	app.POST("/register", h.register)
 
 	app.POST("/join", middleware.Authenticate(h.join))
 	app.POST("/publish", middleware.Authenticate(h.publish))
+
 	app.GET("/suppress", middleware.Authenticate(h.suppress))
 }
