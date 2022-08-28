@@ -44,3 +44,56 @@ func (s *Store) GetClient(ctx context.Context, name string) (Client, error) {
 
 	return client, nil
 }
+
+func (s *Store) AddChatToClient(ctx context.Context, name string, chat string) error {
+	client, err := s.GetClient(ctx, name)
+	if err != nil {
+		return err
+	}
+
+	client.Chats = append(client.Chats, chat)
+
+	filter := bson.D{{"name", name}}
+	collection := s.Database.Collection(ClientCollection)
+
+	if _, err := collection.UpdateOne(ctx, filter, client); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *Store) RemoveChatForClient(ctx context.Context, name string, chat string) error {
+	client, err := s.GetClient(ctx, name)
+	if err != nil {
+		return err
+	}
+
+	for index, value := range client.Chats {
+		if value == chat {
+			client.Chats = append(client.Chats[:index], client.Chats[index+1:]...)
+
+			break
+		}
+	}
+
+	filter := bson.D{{"name", name}}
+	collection := s.Database.Collection(ClientCollection)
+
+	if _, err := collection.UpdateOne(ctx, filter, client); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *Store) RemoveClient(ctx context.Context, name string) error {
+	filter := bson.D{{"name", name}}
+	collection := s.Database.Collection(ClientCollection)
+
+	if _, err := collection.DeleteOne(ctx, filter); err != nil {
+		return err
+	}
+
+	return nil
+}
