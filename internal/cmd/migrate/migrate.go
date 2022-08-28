@@ -30,7 +30,8 @@ func main() {
 	}
 
 	_ = db.Collection(store.MessageCollection)
-	_ = db.Collection(store.UserCollection)
+	_ = db.Collection(store.ChatCollection)
+	_ = db.Collection(store.ClientCollection)
 
 	log.Info("collections created")
 }

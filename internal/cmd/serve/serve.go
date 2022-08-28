@@ -6,6 +6,7 @@ import (
 	"github.com/amirhnajafiz/telegraph/internal/http/handler"
 	"github.com/amirhnajafiz/telegraph/internal/logger"
 	"github.com/amirhnajafiz/telegraph/internal/nats"
+	"github.com/amirhnajafiz/telegraph/internal/store"
 	"github.com/amirhnajafiz/telegraph/internal/validate"
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/cobra"
@@ -38,10 +39,12 @@ func main() {
 	e := echo.New()
 
 	handler.Handler{
-		Database: db,
 		Logger:   log.Named("handler"),
 		Nats:     nat,
 		Validate: validate.Validate{},
+		Store: store.Store{
+			Database: db,
+		},
 	}.Set(e.Group("/api"))
 
 	if err := e.Start(":8080"); err != nil {

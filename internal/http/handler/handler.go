@@ -12,18 +12,17 @@ import (
 	"github.com/amirhnajafiz/telegraph/internal/validate"
 	"github.com/labstack/echo/v4"
 	"github.com/nats-io/nats.go"
-	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
 )
 
 type Handler struct {
-	Database *mongo.Database
 	Logger   *zap.Logger
 	Nats     *nats.Conn
 	Validate validate.Validate
+	Store    store.Store
 }
 
-func (h *Handler) join(c echo.Context) error {
+func (h *Handler) login(c echo.Context) error {
 	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
 	defer endCtx()
 
@@ -34,21 +33,14 @@ func (h *Handler) join(c echo.Context) error {
 
 	user := data["username"].(string)
 	pass := data["password"].(string)
+
 	if user == "" {
 		return c.String(http.StatusBadRequest, "must have a username")
 	}
 
-	client, err := store.Client{}.Find(h.Database, ctx, user)
-
-	if err != mongo.ErrEmptySlice && client.Pass != pass {
-		return c.String(http.StatusUnauthorized, "username and password mismatched")
-	}
-
-	if err == mongo.ErrEmptySlice {
-		_ = store.Client{}.Store(h.Database, ctx, &store.Client{
-			Name: user,
-			Pass: pass,
-		})
+	client, err := h.Store.GetClient(ctx, user)
+	if err != nil || client.Pass != pass {
+		return c.String(http.StatusUnauthorized, err.Error())
 	}
 
 	token, err := jwt.GenerateToken(user)
@@ -59,6 +51,10 @@ func (h *Handler) join(c echo.Context) error {
 	return c.String(http.StatusOK, token)
 }
 
+func (h *Handler) join(c echo.Context) error {
+	return nil
+}
+
 func (h *Handler) publish(c echo.Context) error {
 	valid, data := h.Validate.PublishValidate(c)
 	if valid.Encode() != "" {
@@ -66,13 +62,13 @@ func (h *Handler) publish(c echo.Context) error {
 	}
 
 	item := &store.Message{
-		Sender: data["sender"].(string),
-		Msg:    data["message"].(string),
+		Client:  data["sender"].(string),
+		Message: data["message"].(string),
 	}
 	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
 	defer endCtx()
 
-	err := store.Message{}.Store(h.Database, ctx, item)
+	err := h.Store.InsertMessage(ctx, item)
 	if err != nil {
 		h.Logger.Error("insert into database failed", zap.Error(err))
 	}
@@ -95,13 +91,16 @@ func (h *Handler) suppress(c echo.Context) error {
 	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
 	defer endCtx()
 
-	res := store.Message{}.All(h.Database, ctx, user)
+	res, err := h.Store.GetChatMessages(ctx, user)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
 
 	return c.JSON(http.StatusOK, res)
 }
 
 func (h Handler) Set(app *echo.Group) {
-	app.POST("/join", middleware.Authenticate(h.join))
+	app.POST("/login", middleware.Authenticate(h.login))
 	app.POST("/publish", middleware.Authenticate(h.publish))
 	app.GET("/suppress", middleware.Authenticate(h.suppress))
 }
