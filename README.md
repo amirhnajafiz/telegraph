@@ -1,12 +1,15 @@
+<p align="center">
+    <img src="assets/logo.png" width="400" alt="logo" />
+</p>
+
 <h1 align="center">
 Telegraph
 </h1>
 
 Telegraph is a web-communicator for sending and receiving messages via **nats** server.
+You can create a chat, join a chat, send and receive message in a chat.
 
-## Nats server
-<img src="./assets/nats.png" />
-
+## What is Nats server?
 NATS is a connective technology built for the ever increasingly hyper-connected
 world. It is a single technology that enables applications to securely communicate
 across any combination of cloud vendors, 
