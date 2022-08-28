@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"log"
 
-	"github.com/amirhnajafiz/telegraph/internal/db"
+	"github.com/amirhnajafiz/telegraph/internal/database"
 	"github.com/amirhnajafiz/telegraph/internal/logger"
 	"github.com/amirhnajafiz/telegraph/internal/nats"
 	"github.com/knadh/koanf"
@@ -15,9 +15,9 @@ import (
 
 type (
 	Config struct {
-		Database db.Config     `koanf:"database"`
-		Logger   logger.Config `koanf:"logger"`
-		Nats     nats.Config   `koanf:"nats"`
+		MongoDB database.Config `koanf:"mongodb"`
+		Logger  logger.Config   `koanf:"logger"`
+		Nats    nats.Config     `koanf:"nats"`
 	}
 )
 

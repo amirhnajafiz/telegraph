@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/amirhnajafiz/telegraph/internal/db/store"
 	"github.com/amirhnajafiz/telegraph/internal/http/middleware"
+	"github.com/amirhnajafiz/telegraph/internal/store"
 	"github.com/amirhnajafiz/telegraph/internal/validate"
 	"github.com/labstack/echo/v4"
 	"github.com/nats-io/nats.go"
