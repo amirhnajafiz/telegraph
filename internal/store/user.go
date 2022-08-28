@@ -15,8 +15,8 @@ type Client struct {
 	Pass string             `bson:"pass,omitempty"`
 }
 
-func (Client) Store(database *mongo.Database, ctx context.Context, client *Client) error {
-	col := database.Collection(UserCollection)
+func (s *Store) InsertClient(ctx context.Context, client *Client) error {
+	col := s.Database.Collection(UserCollection)
 
 	_, err := col.InsertOne(ctx, client)
 	if err != nil {
@@ -26,8 +26,8 @@ func (Client) Store(database *mongo.Database, ctx context.Context, client *Clien
 	return nil
 }
 
-func (Client) Find(database *mongo.Database, ctx context.Context, name string) (Client, error) {
-	col := database.Collection(UserCollection)
+func (s *Store) FindClient(ctx context.Context, name string) (Client, error) {
+	col := s.Database.Collection(UserCollection)
 	cursor, _ := col.Find(ctx, bson.M{"name": name})
 	defer cursor.Close(ctx)
 
