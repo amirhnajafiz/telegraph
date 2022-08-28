@@ -6,7 +6,6 @@ import (
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 var MessageCollection = "messages"
@@ -18,20 +17,20 @@ type Message struct {
 	Date   time.Time          `bson:"date,omitempty"`
 }
 
-func (Message) Store(database *mongo.Database, ctx context.Context, item *Message) error {
-	col := database.Collection(MessageCollection)
+func (s *Store) InsertMessage(ctx context.Context, item *Message) (interface{}, error) {
+	col := s.Database.Collection(MessageCollection)
 	item.Date = time.Now()
 
-	_, err := col.InsertOne(ctx, item)
+	res, err := col.InsertOne(ctx, item)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return res.InsertedID, nil
 }
 
-func (Message) All(database *mongo.Database, ctx context.Context, user string) []bson.M {
-	col := database.Collection(MessageCollection)
+func (s *Store) GetAllMessages(ctx context.Context, user string) []bson.M {
+	col := s.Database.Collection(MessageCollection)
 	cursor, _ := col.Find(ctx, bson.M{"sender": user})
 	defer cursor.Close(ctx)
 
