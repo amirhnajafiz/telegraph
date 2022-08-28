@@ -36,7 +36,7 @@ func (Validate) do(opts govalidator.Options, validateType string) (url.Values, m
 
 func (v Validate) SuppressValidate(r echo.Context) (url.Values, map[string]interface{}) {
 	rules := govalidator.MapData{
-		"sender": []string{"required", "between:4,20"},
+		"chat": []string{"required", "between:4,20"},
 	}
 
 	opts := govalidator.Options{
@@ -50,7 +50,7 @@ func (v Validate) SuppressValidate(r echo.Context) (url.Values, map[string]inter
 
 func (v Validate) PublishValidate(r echo.Context) (url.Values, map[string]interface{}) {
 	rules := govalidator.MapData{
-		"sender":  []string{"required", "between:4,20"},
+		"client":  []string{"required", "between:4,20"},
 		"message": []string{"between:0,250"},
 	}
 
@@ -63,10 +63,25 @@ func (v Validate) PublishValidate(r echo.Context) (url.Values, map[string]interf
 	return v.do(opts, JsonType)
 }
 
-func (v Validate) JoinValidate(r echo.Context) (url.Values, map[string]interface{}) {
+func (v Validate) LoginValidate(r echo.Context) (url.Values, map[string]interface{}) {
 	rules := govalidator.MapData{
 		"username": []string{"required", "between:1,20"},
 		"password": []string{"required"},
+	}
+
+	opts := govalidator.Options{
+		Request:         r.Request(),
+		Rules:           rules,
+		RequiredDefault: true,
+	}
+
+	return v.do(opts, JsonType)
+}
+
+func (v Validate) JoinValidate(r echo.Context) (url.Values, map[string]interface{}) {
+	rules := govalidator.MapData{
+		"username": []string{"required", "between:1,20"},
+		"chat":     []string{"required", "between:1,20"},
 	}
 
 	opts := govalidator.Options{

@@ -26,7 +26,7 @@ func (h *Handler) login(c echo.Context) error {
 	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
 	defer endCtx()
 
-	valid, data := h.Validate.JoinValidate(c)
+	valid, data := h.Validate.LoginValidate(c)
 	if valid.Encode() != "" {
 		return c.JSON(http.StatusBadRequest, valid)
 	}
@@ -77,7 +77,7 @@ func (h *Handler) publish(c echo.Context) error {
 	}
 
 	item := &store.Message{
-		Client:  data["sender"].(string),
+		Client:  data["client"].(string),
 		Message: data["message"].(string),
 	}
 	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
@@ -97,16 +97,16 @@ func (h *Handler) publish(c echo.Context) error {
 }
 
 func (h *Handler) suppress(c echo.Context) error {
-	valid, _ := h.Validate.SuppressValidate(c)
+	valid, data := h.Validate.SuppressValidate(c)
 	if valid.Encode() != "" {
 		return c.JSON(http.StatusBadRequest, valid)
 	}
 
-	user := c.FormValue("sender")
+	chat := data["chat"].(string)
 	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
 	defer endCtx()
 
-	res, err := h.Store.GetChatMessages(ctx, user)
+	res, err := h.Store.GetChatMessages(ctx, chat)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
 	}
