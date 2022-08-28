@@ -3,10 +3,10 @@ package handler
 import (
 	"context"
 	"encoding/json"
-	"github.com/amirhnajafiz/telegraph/internal/http/middleware"
 	"net/http"
 	"time"
 
+	"github.com/amirhnajafiz/telegraph/internal/http/middleware"
 	"github.com/amirhnajafiz/telegraph/internal/jwt"
 	"github.com/amirhnajafiz/telegraph/internal/store"
 	"github.com/amirhnajafiz/telegraph/internal/validate"
