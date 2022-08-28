@@ -30,7 +30,10 @@ func main() {
 		log.Fatal("database initiation failed", zap.Error(er))
 	}
 
-	nat, _ := nats.New(cfg.Nats)
+	nat, err := nats.New(cfg.Nats)
+	if err != nil {
+		log.Fatal("nats connection failed", zap.Error(err))
+	}
 
 	e := echo.New()
 
