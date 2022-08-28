@@ -14,7 +14,7 @@ COPY go.mod go.sum ./
 COPY . .
 
 # go into cmd
-WORKDIR /app/cmd
+WORKDIR /app
 
 # build the file
 RUN go build -o ./telegraph

@@ -6,12 +6,12 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/amirhnajafiz/Telegraph.git
+    repoURL: https://github.com/amirhnajafiz/telegraph.git
     targetRevision: HEAD
   destination:
     server: # Cluster ip
     namespace: # Cluster namespace
 stringData:
   name: telegraph
-  url: https://github.com/amirhnajafiz/Telegraph/tree/master/deploy/telegraph
+  url: https://github.com/amirhnajafiz/telegraph/tree/master/deploy/telegraph
   type: helm
