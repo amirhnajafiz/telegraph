@@ -52,7 +52,22 @@ func (h *Handler) login(c echo.Context) error {
 }
 
 func (h *Handler) join(c echo.Context) error {
-	return nil
+	ctx, endCtx := context.WithTimeout(context.Background(), 10*time.Second)
+	defer endCtx()
+
+	valid, data := h.Validate.JoinValidate(c)
+	if valid.Encode() != "" {
+		return c.JSON(http.StatusBadRequest, valid)
+	}
+
+	user := data["username"].(string)
+	chat := data["chat"].(string)
+
+	if err := h.Store.AddChatToClient(ctx, user, chat); err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.String(http.StatusNoContent, "joined")
 }
 
 func (h *Handler) publish(c echo.Context) error {
@@ -100,7 +115,9 @@ func (h *Handler) suppress(c echo.Context) error {
 }
 
 func (h Handler) Set(app *echo.Group) {
-	app.POST("/login", middleware.Authenticate(h.login))
+	app.POST("/login", h.login)
+
+	app.POST("/join", middleware.Authenticate(h.join))
 	app.POST("/publish", middleware.Authenticate(h.publish))
 	app.GET("/suppress", middleware.Authenticate(h.suppress))
 }
